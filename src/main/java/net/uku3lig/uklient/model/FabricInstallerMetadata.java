@@ -1,0 +1,21 @@
+package net.uku3lig.uklient.model;
+
+import lombok.Data;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@Data
+@XmlRootElement(name = "metadata")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class FabricInstallerMetadata {
+    @XmlElement(name = "versioning")
+    private Versioning versioning;
+
+    @Data
+    public static class Versioning {
+        private String release;
+    }
+}
