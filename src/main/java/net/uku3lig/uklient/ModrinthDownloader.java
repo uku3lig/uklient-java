@@ -7,6 +7,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -47,11 +48,15 @@ public class ModrinthDownloader {
         InputStream in = ModrinthDownloader.class.getClassLoader().getResourceAsStream("modrinth.json");
         if (in == null) throw new NullPointerException("Error: could not find file modrinth.json");
 
-        JsonObject root = gson.fromJson(new InputStreamReader(in), JsonObject.class);
-        Map<String, String> map = root.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().getAsString()));
+        try (InputStreamReader reader = new InputStreamReader(in)) {
+            JsonObject root = gson.fromJson(reader, JsonObject.class);
+            Map<String, String> map = root.entrySet().stream()
+                    .collect(Collectors.toMap(Map.Entry::getKey, v -> v.getValue().getAsString()));
 
-        ModrinthDownloader.mods.putAll(map);
+            mods.putAll(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private ModrinthDownloader() {}
