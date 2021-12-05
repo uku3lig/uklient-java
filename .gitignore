@@ -156,3 +156,4 @@ gradle-app.setting
 
 #sonarlint
 .idea/sonarlint
+.idea/sonarlint/issuestore/*
