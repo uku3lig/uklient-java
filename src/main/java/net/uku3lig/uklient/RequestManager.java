@@ -13,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jaxb.JaxbConverterFactory;
 
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.time.Instant;
 import java.util.HashMap;
@@ -46,6 +47,12 @@ public class RequestManager {
 
         gson = builder.create();
         return gson;
+    }
+
+    public static Type getParametrized(Class<?> main, Class<?> parameter) {
+        Type mainType = TypeToken.get(main).getType();
+        Type parameterType = TypeToken.get(parameter).getType();
+        return TypeToken.getParameterized(mainType, parameterType).getType();
     }
 
     public static <T> Callback<T> getCallback(Consumer<Response<T>> action) {
