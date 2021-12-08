@@ -82,6 +82,12 @@ public class UIManager {
         if (answer.isEmpty()) return defaultAnswer;
         else return answer.charAt(0) == 'y';
     }
+    
+    public static String input(String query) {
+        System.out.printf("%s %s", query, PROMPT);
+        return scanner.nextLine();
+    }
+            
 
     // = helper methods =
 
