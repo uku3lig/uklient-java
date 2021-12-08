@@ -2,14 +2,8 @@ package net.uku3lig.uklient;
 
 import com.diogonunes.jcolor.AnsiFormat;
 import com.diogonunes.jcolor.Attribute;
-import com.google.gson.Gson;
-import net.uku3lig.uklient.model.ModInfo;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
@@ -17,14 +11,13 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 import static java.nio.file.StandardOpenOption.*;
 
 public class Test {
     public static void main(String[] args) throws Exception {
         System.out.println(ModManager.getMods().size());
-        System.out.println(ModManager.getFromName("cummy").getId());
+        System.out.println(ModManager.getModFromName("cummy").getId());
     }
 
     private static void modrinth2() {

@@ -38,7 +38,10 @@
               "type": "string"
             }
           },
-          "required": ["minecraftVersion", "versionId"]
+          "required": [
+            "minecraftVersion",
+            "versionId"
+          ]
         }
       },
       "config": {

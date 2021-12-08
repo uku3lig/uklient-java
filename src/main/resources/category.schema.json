@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "category",
+  "title": "Category",
+  "description": "Category",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "mods": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    },
+    "required": [
+      "name",
+      "mods"
+    ]
+  }
+}
