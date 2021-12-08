@@ -1,0 +1,24 @@
+[
+  {
+    "name": "sodium",
+    "id": "AANobbMI",
+    "provider": "modrinth",
+    "fallback": [
+      {
+        "minecraftVersion": "1.17.1",
+        "versionId": "6YGRDUVT"
+      },
+      {
+        "minecraftVersion": "1.18",
+        "versionId": "3JJvf9Kn"
+      }
+    ],
+    "dependencies": [
+      "AZomiSrC"
+    ],
+    "config": {
+      "type": "file",
+      "name": "sodium.json"
+    }
+  }
+]

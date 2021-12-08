@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mod",
+  "title": "Mod",
+  "description": "Mod",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "provider": {
+        "enum": [
+          "modrinth",
+          "curseforge"
+        ]
+      },
+      "dependencies": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "fallback": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "minecraftVersion": {
+              "type": "string",
+              "pattern": "^1(\\.\\d{1,2}){1,2}$"
+            },
+            "versionId": {
+              "type": "string"
+            }
+          },
+          "required": ["minecraftVersion", "versionId"]
+        }
+      },
+      "config": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "enum": [
+              "directory",
+              "file"
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "name"
+        ]
+      }
+    },
+    "required": [
+      "name",
+      "id",
+      "provider",
+      "fallback"
+    ]
+  }
+}

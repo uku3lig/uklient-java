@@ -45,8 +45,8 @@ public class ModrinthDownloader {
     }
 
     private static void loadMods() {
-        InputStream in = ModrinthDownloader.class.getClassLoader().getResourceAsStream("modrinth.json");
-        if (in == null) throw new NullPointerException("Error: could not find file modrinth.json");
+        InputStream in = ModrinthDownloader.class.getClassLoader().getResourceAsStream("mods.json");
+        if (in == null) throw new NullPointerException("Error: could not find file mods.json");
 
         try (InputStreamReader reader = new InputStreamReader(in)) {
             JsonObject root = gson.fromJson(reader, JsonObject.class);
