@@ -18,6 +18,11 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class Test {
     public static void main(String[] args) throws Exception {
+        Path p = ResourceManager.getModFromName("sodium").getConfig().getFile("sdhkjqhkqjshd");
+        System.out.println(p);
+    }
+
+    private static void map() {
         Map<String, Boolean> map = new ImmutableMap.Builder<String, Boolean>()
                 .put("one", true)
                 .put("two", false)
