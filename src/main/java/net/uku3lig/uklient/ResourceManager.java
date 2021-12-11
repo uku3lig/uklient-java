@@ -16,7 +16,7 @@ public class ResourceManager {
     private static final List<ModCategory> categories = new ArrayList<>();
 
     public static List<ModInfo> getMods() {
-        if (!mods.isEmpty()) mods.addAll(loadMods());
+        if (mods.isEmpty()) mods.addAll(loadMods());
         return Collections.unmodifiableList(mods);
     }
 
@@ -25,7 +25,7 @@ public class ResourceManager {
         return Collections.unmodifiableList(categories);
     }
 
-    public static List<ModInfo> getModFromProvider(ModInfo.Provider provider) {
+    public static List<ModInfo> getModsFromProvider(ModInfo.Provider provider) {
         return getMods().stream()
                 .filter(m -> m.getProvider().equals(provider))
                 .collect(Collectors.toList());
