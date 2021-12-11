@@ -15,7 +15,10 @@ jobs:
           java-version: 17
       - name: Build jar
         run: ./gradlew shadowJar
+      - name: Get commit sha
+        run: ref="${cut -c 1-7 <<< ${{ GITHUB_SHA }}}" && echo "::set-output name=sha::${ref////-}"
       - name: Upload jar
         uses: actions/upload-artifact@v2
         with:
           path: build/libs/*.jar
+          name: uklient-build-${{ steps.ref.outputs.sha }}
