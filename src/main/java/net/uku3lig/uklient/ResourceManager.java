@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ModManager {
+public class ResourceManager {
     private static final List<ModInfo> mods = new ArrayList<>();
     private static final List<ModCategory> categories = new ArrayList<>();
 
@@ -54,7 +54,7 @@ public class ModManager {
 
     private static Collection<ModInfo> loadMods() {
         // try with resources to ensure that everything closes correctly
-        try (InputStream is = Objects.requireNonNull(ModManager.class.getClassLoader().getResourceAsStream("mods.json"));
+        try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("mods.json"));
              Reader reader = new InputStreamReader(is)) {
             Type listType = RequestManager.getParametrized(List.class, ModInfo.class);
             return RequestManager.getGson().fromJson(reader, listType);
@@ -65,7 +65,7 @@ public class ModManager {
     }
 
     private static Collection<ModCategory> loadCategories() {
-        try (InputStream is = Objects.requireNonNull(ModManager.class.getClassLoader().getResourceAsStream("categories.json"));
+        try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("categories.json"));
              Reader reader = new InputStreamReader(is)) {
             Type listType = RequestManager.getParametrized(List.class, ModCategory.class);
             return RequestManager.getGson().fromJson(reader, listType);
@@ -75,6 +75,6 @@ public class ModManager {
         return Collections.emptyList();
     }
 
-    private ModManager() {
+    private ResourceManager() {
     }
 }

@@ -2,7 +2,7 @@ package net.uku3lig.uklient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.uku3lig.uklient.ModManager;
+import net.uku3lig.uklient.ResourceManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +14,7 @@ public class ModCategory {
     private List<String> mods;
 
     public List<ModInfo> getModInfos() {
-        return ModManager.getMods().stream()
+        return ResourceManager.getMods().stream()
                 .filter(m -> mods.contains(m.getName()))
                 .collect(Collectors.toList());
     }
