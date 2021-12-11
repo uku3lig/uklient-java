@@ -16,9 +16,10 @@ jobs:
       - name: Build jar
         run: ./gradlew shadowJar
       - name: Get commit sha
-        run: ref="${cut -c 1-7 <<< ${{ GITHUB_SHA }}}" && echo "::set-output name=sha::${ref////-}"
+        id: var
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Upload jar
         uses: actions/upload-artifact@v2
         with:
           path: build/libs/*.jar
-          name: uklient-build-${{ steps.ref.outputs.sha }}
+          name: uklient-build-${{ steps.var.outputs.sha_short }}
