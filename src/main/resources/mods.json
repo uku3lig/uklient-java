@@ -16,9 +16,6 @@
     "dependencies": [
       "AZomiSrC"
     ],
-    "config": {
-      "type": "file",
-      "name": "sodium.json"
-    }
+    "config": "sodiumDir"
   }
 ]

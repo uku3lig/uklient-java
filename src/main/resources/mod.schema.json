@@ -45,22 +45,7 @@
         }
       },
       "config": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "enum": [
-              "directory",
-              "file"
-            ]
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "name"
-        ]
+        "type": "string"
       }
     },
     "required": [
