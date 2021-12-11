@@ -2,6 +2,7 @@ package net.uku3lig.uklient;
 
 import com.diogonunes.jcolor.AnsiFormat;
 import com.diogonunes.jcolor.Attribute;
+import com.google.common.collect.ImmutableMap;
 
 import java.io.File;
 import java.net.URL;
@@ -11,13 +12,21 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import static java.nio.file.StandardOpenOption.*;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        System.out.println(ModManager.getMods().size());
-        System.out.println(ModManager.getModFromName("cummy").getId());
+        Map<String, Boolean> map = new ImmutableMap.Builder<String, Boolean>()
+                .put("one", true)
+                .put("two", false)
+                .put("three", true)
+                .build();
+
+        Map<String, Boolean> result = UIManager.updateSelection(map);
+
+        UIManager.printMap(result);
     }
 
     private static void modrinth2() {
