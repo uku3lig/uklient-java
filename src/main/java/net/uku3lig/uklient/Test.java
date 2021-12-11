@@ -18,8 +18,7 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        Path p = ResourceManager.getModFromName("sodium").getConfig().getFile("sdhkjqhkqjshd");
-        System.out.println(p);
+        ResourceManager.getModFromName("sodium").copyConfig("", Paths.get("/home/leo/.uklient/config/mods"));
     }
 
     private static void map() {

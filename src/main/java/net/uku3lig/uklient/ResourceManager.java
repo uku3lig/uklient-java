@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,6 +75,24 @@ public class ResourceManager {
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    public static FileVisitor<Path> getVisitor(Path source, Path target) {
+        return new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                Path p = target.resolve(source.relativize(dir));
+                Files.createDirectories(p);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Path p = target.resolve(source.relativize(file));
+                Files.copy(file, p);
+                return FileVisitResult.CONTINUE;
+            }
+        };
     }
 
     private ResourceManager() {
