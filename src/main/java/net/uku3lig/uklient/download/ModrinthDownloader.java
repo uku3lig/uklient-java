@@ -3,6 +3,7 @@ package net.uku3lig.uklient.download;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import net.uku3lig.uklient.model.ModrinthFile;
+import net.uku3lig.uklient.util.Util;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
@@ -42,7 +43,7 @@ public class ModrinthDownloader {
     public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder) {
         if (!destFolder.isDirectory())
             throw new IllegalArgumentException(destFolder.getAbsolutePath() + " is not a folder!!!");
-        return getMostRecentFile(modId, mcVer).thenCompose(url -> Downloader.download(url, Downloader.path(url, destFolder)));
+        return getMostRecentFile(modId, mcVer).thenCompose(url -> Downloader.download(url, Util.path(url, destFolder)));
     }
 
     private static void loadMods() {

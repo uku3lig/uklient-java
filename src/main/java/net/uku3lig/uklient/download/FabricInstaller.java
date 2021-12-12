@@ -1,6 +1,7 @@
 package net.uku3lig.uklient.download;
 
 import net.uku3lig.uklient.model.FabricInstallerMetadata;
+import net.uku3lig.uklient.util.Util;
 import retrofit2.http.GET;
 
 import java.io.File;
@@ -22,12 +23,12 @@ public class FabricInstaller {
         return requester.getMetadata().thenApply(m -> {
             String ver = m.getVersioning().getRelease();
             String url = String.format(URL_FORMAT, ver, ver);
-            return Downloader.url(url);
+            return Util.url(url);
         });
     }
 
     public static CompletableFuture<Void> installFabric(String mcVer, Path installDir) {
-        return getLatestFabricInstaller().thenCompose(u -> Downloader.download(u, Downloader.getTmpDir().resolve("fabric.jar")))
+        return getLatestFabricInstaller().thenCompose(u -> Downloader.download(u, Util.getTmpDir().resolve("fabric.jar")))
                 .thenAccept(path -> {
                     String[] command = getInstallCommand(path, mcVer, installDir);
                     ProcessBuilder builder = new ProcessBuilder(command);

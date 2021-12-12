@@ -2,6 +2,7 @@ package net.uku3lig.uklient.download;
 
 import net.uku3lig.uklient.model.ModCategory;
 import net.uku3lig.uklient.model.ModInfo;
+import net.uku3lig.uklient.util.Util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,7 +59,7 @@ public class ResourceManager {
         // try with resources to ensure that everything closes correctly
         try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("mods.json"));
              Reader reader = new InputStreamReader(is)) {
-            Type listType = RequestManager.getParametrized(List.class, ModInfo.class);
+            Type listType = Util.getParametrized(List.class, ModInfo.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,7 +70,7 @@ public class ResourceManager {
     private static Collection<ModCategory> loadCategories() {
         try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("categories.json"));
              Reader reader = new InputStreamReader(is)) {
-            Type listType = RequestManager.getParametrized(List.class, ModCategory.class);
+            Type listType = Util.getParametrized(List.class, ModCategory.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
             e.printStackTrace();
