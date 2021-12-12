@@ -2,6 +2,7 @@ package net.uku3lig.uklient.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import net.uku3lig.uklient.download.ResourceManager;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 
 @Getter
 @AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class ModInfo {
     private String id;
     private String name;
