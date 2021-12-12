@@ -49,7 +49,7 @@ public class ModInfo {
             if (Files.isDirectory(configPath)) Files.walkFileTree(configPath, ResourceManager.getVisitor(configPath, destination));
             else Files.copy(configPath, destination);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Could not copy config file " + config);
         }
     }
 

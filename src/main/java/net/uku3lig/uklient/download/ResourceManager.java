@@ -93,7 +93,8 @@ public class ResourceManager {
             Type listType = Util.getParametrized(List.class, ModInfo.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Could not load mods. please retry later");
+            System.exit(1);
         }
         return Collections.emptyList();
     }
@@ -104,7 +105,8 @@ public class ResourceManager {
             Type listType = Util.getParametrized(List.class, ModCategory.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Could not load categories. please retry later");
+            System.exit(1);
         }
         return Collections.emptyList();
     }

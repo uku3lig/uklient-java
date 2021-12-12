@@ -22,7 +22,9 @@ public class Downloader {
 
                 while (downloaded < fileSize) downloaded += out.transferFrom(in, downloaded, fileSize);
             } catch (Exception e) {
-                e.printStackTrace();
+                System.err.println("An error occurred while downloading file " + url);
+                System.err.println("Please retry later");
+                System.exit(1);
             }
             return path;
         });

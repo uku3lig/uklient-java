@@ -35,9 +35,9 @@ public class FabricInstaller {
                     try {
                         Process proc = builder.inheritIO().start();
                         proc.waitFor();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
+                        if (proc.exitValue() != 0) throw new IOException("fabric installation went wrong");
+                    } catch (Exception e) {
+                        System.err.println("Could not install fabric");
                         Thread.currentThread().interrupt();
                     }
                 });
