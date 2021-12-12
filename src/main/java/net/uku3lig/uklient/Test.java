@@ -17,13 +17,14 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Map;
 
 import static java.nio.file.StandardOpenOption.*;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        ResourceManager.getModFromName("sodium").copyConfig("", Paths.get("/home/leo/.uklient/config/mods"));
+        ResourceManager.getDependencies(ResourceManager.getMods(), "1.17.1").thenAccept(System.out::println);
     }
 
     private static void map() {

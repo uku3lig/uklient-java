@@ -9,9 +9,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class ResourceManager {
@@ -53,6 +55,35 @@ public class ResourceManager {
                 .filter(c -> c.getName().equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(NoSuchElementException::new);
+    }
+
+    public static  CompletableFuture<List<URL>> getDependencies(Collection<ModInfo> mods, String mcVer) {
+        if (mods.isEmpty()) return CompletableFuture.completedFuture(Collections.emptyList());
+
+        Set<CompletableFuture<URL>> futures = mods.stream()
+                .collect(Collectors.groupingBy(ModInfo::getProvider))
+                .entrySet().stream()
+                .map(e -> {
+                    List<String> ids = e.getValue().stream()
+                            .map(ModInfo::getDependencies)
+                            .flatMap(Collection::stream)
+                            .distinct()
+                            .collect(Collectors.toList());
+                    return new AbstractMap.SimpleEntry<>(e.getKey(), ids);
+                }).map(e -> {
+                    if (e.getKey().equals(ModInfo.Provider.MODRINTH)) {
+                        return e.getValue().stream()
+                                .map(id -> ModrinthDownloader.getMostRecentFile(id, mcVer))
+                                .collect(Collectors.toList());
+                    } else {
+                            return e.getValue().stream()
+                                    .map(id -> CurseforgeDownloader.getMostRecentFile(id, mcVer))
+                                    .collect(Collectors.toList());
+                    }
+                }).flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+        return Util.allOf(futures);
     }
 
     private static Collection<ModInfo> loadMods() {

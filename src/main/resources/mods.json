@@ -14,8 +14,19 @@
       }
     ],
     "dependencies": [
-      "AZomiSrC"
+      "AZomiSrC",
+      "hEOCdOgW"
     ],
     "config": "sodiumDir"
+  },
+  {
+    "name": "litematica",
+    "id": "308892",
+    "provider": "curseforge",
+    "fallback": [],
+    "dependencies": [
+      "303119",
+      "244260"
+    ]
   }
 ]
