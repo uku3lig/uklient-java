@@ -1,4 +1,4 @@
-package net.uku3lig.uklient;
+package net.uku3lig.uklient.download;
 
 import net.uku3lig.uklient.model.ModCategory;
 import net.uku3lig.uklient.model.ModInfo;

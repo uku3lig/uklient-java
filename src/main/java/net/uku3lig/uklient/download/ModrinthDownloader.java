@@ -1,4 +1,4 @@
-package net.uku3lig.uklient;
+package net.uku3lig.uklient.download;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -40,7 +40,8 @@ public class ModrinthDownloader {
     }
 
     public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder) {
-        if (!destFolder.isDirectory()) throw new IllegalArgumentException(destFolder.getAbsolutePath() + " is not a folder!!!");
+        if (!destFolder.isDirectory())
+            throw new IllegalArgumentException(destFolder.getAbsolutePath() + " is not a folder!!!");
         return getMostRecentFile(modId, mcVer).thenCompose(url -> Downloader.download(url, Downloader.path(url, destFolder)));
     }
 
@@ -59,7 +60,8 @@ public class ModrinthDownloader {
         }
     }
 
-    private ModrinthDownloader() {}
+    private ModrinthDownloader() {
+    }
 
     private interface ModrinthRequester {
         @GET("mod/{id}/version")

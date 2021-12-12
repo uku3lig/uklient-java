@@ -1,4 +1,4 @@
-package net.uku3lig.uklient;
+package net.uku3lig.uklient.util;
 
 import com.diogonunes.jcolor.Attribute;
 

@@ -1,10 +1,10 @@
-package net.uku3lig.uklient;
+package net.uku3lig.uklient.download;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import net.uku3lig.uklient.converters.InstantDeserializer;
-import net.uku3lig.uklient.converters.URLDeserializer;
+import net.uku3lig.uklient.util.converters.InstantDeserializer;
+import net.uku3lig.uklient.util.converters.URLDeserializer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.jaxb.JaxbConverterFactory;

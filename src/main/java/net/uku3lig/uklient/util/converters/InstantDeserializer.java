@@ -1,4 +1,4 @@
-package net.uku3lig.uklient.converters;
+package net.uku3lig.uklient.util.converters;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

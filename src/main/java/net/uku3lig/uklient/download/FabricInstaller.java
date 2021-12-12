@@ -1,4 +1,4 @@
-package net.uku3lig.uklient;
+package net.uku3lig.uklient.download;
 
 import net.uku3lig.uklient.model.FabricInstallerMetadata;
 import retrofit2.http.GET;

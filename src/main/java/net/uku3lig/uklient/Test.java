@@ -3,6 +3,11 @@ package net.uku3lig.uklient;
 import com.diogonunes.jcolor.AnsiFormat;
 import com.diogonunes.jcolor.Attribute;
 import com.google.common.collect.ImmutableMap;
+import net.uku3lig.uklient.download.CurseforgeDownloader;
+import net.uku3lig.uklient.download.FabricInstaller;
+import net.uku3lig.uklient.download.ModrinthDownloader;
+import net.uku3lig.uklient.download.ResourceManager;
+import net.uku3lig.uklient.util.UIManager;
 
 import java.io.File;
 import java.net.URL;

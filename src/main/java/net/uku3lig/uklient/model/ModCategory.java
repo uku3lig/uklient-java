@@ -2,7 +2,7 @@ package net.uku3lig.uklient.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.uku3lig.uklient.ResourceManager;
+import net.uku3lig.uklient.download.ResourceManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
