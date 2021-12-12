@@ -24,7 +24,7 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        ResourceManager.getDependencies(ResourceManager.getMods(), "1.17.1").thenAccept(System.out::println);
+        ModrinthDownloader.getMostRecentFile("qsdjkhqskjld", "1.9278").thenAccept(System.out::println);
     }
 
     private static void map() {
@@ -75,10 +75,5 @@ public class Test {
                 System.out.println(downloaded);
             }
         }
-    }
-
-    static void modrinth() {
-        String id = ModrinthDownloader.getModID("sodium");
-        ModrinthDownloader.download(id, "1.17.1", new File("/home/leo/"));
     }
 }
