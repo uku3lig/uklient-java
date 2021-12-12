@@ -30,14 +30,17 @@ public class ModrinthDownloader {
 
     public static CompletableFuture<URL> getMostRecentFile(String modId, String mcVer) {
         return requester.getFiles(modId).thenApply(l -> l.stream()
-                .filter(f -> f.getGameVersions().contains(mcVer))
-                .filter(f -> f.getLoaders().contains("fabric"))
-                .max(Comparator.comparing(ModrinthFile::getDatePublished))
-                .map(f -> f.getFiles().stream()
-                        .filter(ModrinthFile.ModFile::isPrimary)
-                        .map(ModrinthFile.ModFile::getUrl).
-                        findFirst().orElseThrow(NoSuchElementException::new))
-                .orElseThrow(NoSuchElementException::new));
+                        .filter(f -> f.getGameVersions().contains(mcVer))
+                        .filter(f -> f.getLoaders().contains("fabric"))
+                        .max(Comparator.comparing(ModrinthFile::getDatePublished))
+                        .map(f -> f.getFiles().stream()
+                                .filter(mf -> mf.getFilename().endsWith(".jar") || mf.isPrimary())
+                                .map(ModrinthFile.ModFile::getUrl)
+                                .findFirst().orElseThrow(NoSuchElementException::new))
+                        .orElseThrow(NoSuchElementException::new))
+                .exceptionally(t -> {
+                    return null; // do something to tell mods aren't available for this version
+                });
     }
 
     public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder) {
