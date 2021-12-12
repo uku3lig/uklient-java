@@ -21,6 +21,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Util {
+    public static final URL NOT_FOUND = url("http://not.found");
+
     public static <T> CompletableFuture<List<T>> allOf(Collection<CompletableFuture<T>> futures) {
         return accumulate(futures, Collectors.toList());
     }

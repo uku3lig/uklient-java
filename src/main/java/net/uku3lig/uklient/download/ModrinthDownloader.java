@@ -24,11 +24,9 @@ public class ModrinthDownloader {
                         .map(f -> f.getFiles().stream()
                                 .filter(mf -> mf.getFilename().endsWith(".jar") || mf.isPrimary())
                                 .map(ModrinthFile.ModFile::getUrl)
-                                .findFirst().orElseThrow(NoSuchElementException::new))
-                        .orElseThrow(NoSuchElementException::new))
-                .exceptionally(t -> {
-                    return null; // do something to tell mods aren't available for this version
-                });
+                                .findFirst().orElse(Util.NOT_FOUND))
+                        .orElse(Util.NOT_FOUND))
+                .exceptionally(t -> Util.NOT_FOUND);
     }
 
     public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder) {
