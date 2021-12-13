@@ -8,9 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 public class FabricInstaller {
@@ -61,26 +59,6 @@ public class FabricInstaller {
         command.add(mcVer);
 
         return command.toArray(new String[0]);
-    }
-
-    public static Path findMcDir() {
-        String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
-        Path dir;
-
-        if (os.contains("win") && System.getenv("APPDATA") != null) {
-            dir = Paths.get(System.getenv("APPDATA")).resolve(".minecraft");
-        } else {
-            String home = System.getProperty("user.home", ".");
-            Path homeDir = Paths.get(home);
-
-            if (os.contains("mac")) {
-                dir = homeDir.resolve("Library").resolve("Application Support").resolve("minecraft");
-            } else {
-                dir = homeDir.resolve(".minecraft"); // linux B)
-            }
-        }
-
-        return dir.toAbsolutePath().normalize();
     }
 
     private interface FabricRequester {

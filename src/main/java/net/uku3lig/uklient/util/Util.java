@@ -9,10 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -75,6 +72,26 @@ public class Util {
         Type mainType = TypeToken.get(main).getType();
         Type parameterType = TypeToken.get(parameter).getType();
         return TypeToken.getParameterized(mainType, parameterType).getType();
+    }
+
+    public static Path findMcDir() {
+        String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
+        Path dir;
+
+        if (os.contains("win") && System.getenv("APPDATA") != null) {
+            dir = Paths.get(System.getenv("APPDATA")).resolve(".minecraft");
+        } else {
+            String home = System.getProperty("user.home", ".");
+            Path homeDir = Paths.get(home);
+
+            if (os.contains("mac")) {
+                dir = homeDir.resolve("Library").resolve("Application Support").resolve("minecraft");
+            } else {
+                dir = homeDir.resolve(".minecraft"); // linux B)
+            }
+        }
+
+        return dir.toAbsolutePath().normalize();
     }
 
     private Util() {}
