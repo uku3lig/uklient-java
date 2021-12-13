@@ -27,7 +27,7 @@ public class UIManager {
      * @param defaultIndex The index of the default option, from 0 to <code>options.size() - 1</code>
      * @return The chosen string
      */
-    public static String choice(List<String> options, int defaultIndex) {
+    public static int choice(List<String> options, int defaultIndex) {
         if (defaultIndex >= options.size())
             throw new IllegalArgumentException("defaultIndex cannot be bigger than list size!");
 
@@ -39,12 +39,12 @@ public class UIManager {
             switch (answer) {
                 case EMPTY_INPUT:
                     // no input, return default value
-                    return options.get(defaultIndex);
+                    return defaultIndex;
                 case WRONG_INPUT:
                     break;
                 default:
                     if (answer > options.size()) break;
-                    return options.get(answer-1);
+                    return answer-1;
             }
             System.out.println(WRONG_INPUT_MESSAGE);
         }
@@ -52,12 +52,12 @@ public class UIManager {
     }
 
     public static <T extends Enum<T>> T choiceEnum(List<T> options, int defaultIndex) {
-        Map<String, T> map = options.stream().collect(Collectors.toMap(Enum::name, e -> e));
-        String choice = choice(new ArrayList<>(map.keySet()), defaultIndex);
+        Map<Integer, T> map = options.stream().collect(Collectors.toMap(options::indexOf, e -> e));
+        int choice = choice(map.values().stream().map(Enum::name).collect(Collectors.toList()), defaultIndex);
         return map.get(choice);
     }
 
-    public static String choice(List<String> options) {
+    public static int choice(List<String> options) {
         printList(options);
         for (int i = 0; i < 5; i++) {
             System.out.print(PROMPT);
@@ -69,7 +69,7 @@ public class UIManager {
                     break;
                 default:
                     if (answer > options.size()) break;
-                    return options.get(answer-1);
+                    return answer-1;
             }
 
             System.out.println(WRONG_INPUT_MESSAGE);
@@ -78,8 +78,8 @@ public class UIManager {
     }
 
     public static <T extends Enum<T>> T choiceEnum(List<T> options) {
-        Map<String, T> map = options.stream().collect(Collectors.toMap(Enum::name, e -> e));
-        String choice = choice(new ArrayList<>(map.keySet()));
+        Map<Integer, T> map = options.stream().collect(Collectors.toMap(options::indexOf, e -> e));
+        int choice = choice(map.values().stream().map(Enum::name).collect(Collectors.toList()));
         return map.get(choice);
     }
 
@@ -120,6 +120,12 @@ public class UIManager {
             i++;
         } while (i < 5);
         throw new IllegalArgumentException(TOO_MANY_WRONG);
+    }
+
+    public static String input(String query) {
+        String q = String.format("%s %s", query, PROMPT);
+        System.out.print(Color.parse(q, Attribute.BOLD()));
+        return scanner.nextLine();
     }
 
     // = helper methods =
