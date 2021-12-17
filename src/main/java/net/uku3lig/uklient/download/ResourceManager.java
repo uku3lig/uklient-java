@@ -1,6 +1,6 @@
 package net.uku3lig.uklient.download;
 
-import net.uku3lig.uklient.model.ModCategory;
+import net.uku3lig.uklient.model.NamedModList;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.util.Util;
 
@@ -77,6 +77,36 @@ public class ResourceManager {
         return Util.allOf(futures);
     }
 
+    // CATEGORY RELATED METHODS
+
+    public static List<NamedModList> getCategories() {
+        if (categories.isEmpty()) categories.addAll(loadNamedModList("categories"));
+        return Collections.unmodifiableList(categories);
+    }
+
+    public static NamedModList getCategoryByName(String name) {
+        return getCategories().stream()
+                .filter(c -> c.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    // PRESET METHODS
+
+    public static List<NamedModList> getPresets() {
+        if (presets.isEmpty()) presets.addAll(loadNamedModList("presets"));
+        return Collections.unmodifiableList(categories);
+    }
+
+    public static NamedModList getPresetByName(String name) {
+        return getPresets().stream()
+                .filter(c -> c.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
+    }
+
+    // UTIL METHODS
+
     private static Collection<ModInfo> loadMods() {
         // try with resources to ensure that everything closes correctly
         try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("mods.json"));
@@ -90,22 +120,8 @@ public class ResourceManager {
         return Collections.emptyList();
     }
 
-    // CATEGORY RELATED METHODS
-
-    public static List<NamedModList> getCategories() {
-        if (categories.isEmpty()) categories.addAll(loadCategories());
-        return Collections.unmodifiableList(categories);
-    }
-
-    public static NamedModList getCategoryByName(String name) {
-        return getCategories().stream()
-                .filter(c -> c.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElseThrow(NoSuchElementException::new);
-    }
-
-    private static Collection<NamedModList> loadCategories() {
-        try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("categories.json"));
+    private static Collection<NamedModList> loadNamedModList(String filename) {
+        try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream(filename + ".json"));
              Reader reader = new InputStreamReader(is)) {
             Type listType = Util.getParametrized(List.class, NamedModList.class);
             return RequestManager.getGson().fromJson(reader, listType);
