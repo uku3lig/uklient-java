@@ -1,7 +1,7 @@
 package net.uku3lig.uklient.download;
 
-import net.uku3lig.uklient.model.NamedModList;
 import net.uku3lig.uklient.model.ModInfo;
+import net.uku3lig.uklient.model.NamedModList;
 import net.uku3lig.uklient.util.Util;
 
 import java.io.IOException;
@@ -9,11 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
-import java.net.URL;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class ResourceManager {
@@ -48,21 +46,19 @@ public class ResourceManager {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public static  CompletableFuture<List<URL>> getDependencies(Collection<ModInfo> mods, String mcVer) {
-        if (mods.isEmpty()) return CompletableFuture.completedFuture(Collections.emptyList());
+    public static List<ModInfo> getDependencies(Collection<ModInfo> mods) {
+        if (mods.isEmpty()) return Collections.emptyList();
 
-        Set<CompletableFuture<URL>> futures = mods.stream()
-                .collect(Collectors.groupingBy(ModInfo::getProvider))
-                .entrySet().stream()
-                .map(e -> {
-                    List<String> ids = e.getValue().stream()
-                            .map(ModInfo::getDependencies)
-                            .flatMap(Collection::stream)
-                            .distinct()
-                            .collect(Collectors.toList());
-                    return new AbstractMap.SimpleEntry<>(e.getKey(), ids);
-                }).map(e -> {
-                    if (e.getKey().equals(ModInfo.Provider.MODRINTH)) {
+        return mods.stream()
+                .map(ModInfo::getDependencies)
+                .flatMap(Collection::stream)
+                .distinct()
+                .map(ResourceManager::getModFromId)
+                .collect(Collectors.toList());
+    }
+
+    /* TODO i may need to use this code some day
+    if (e.getKey().equals(ModInfo.Provider.MODRINTH)) {
                         return e.getValue().stream()
                                 .map(id -> ModrinthDownloader.getMostRecentFile(id, mcVer))
                                 .collect(Collectors.toList());
@@ -71,11 +67,7 @@ public class ResourceManager {
                                 .map(id -> CurseforgeDownloader.getMostRecentFile(id, mcVer))
                                 .collect(Collectors.toList());
                     }
-                }).flatMap(Collection::stream)
-                .collect(Collectors.toSet());
-
-        return Util.allOf(futures);
-    }
+     */
 
     // CATEGORY RELATED METHODS
 
