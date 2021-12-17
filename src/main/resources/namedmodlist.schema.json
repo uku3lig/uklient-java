@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "categoryandpreset",
-  "title": "Category and preset",
-  "description": "Category and preset",
+  "$id": "namedmodlist",
+  "title": "Named mod list",
+  "description": "Named mod list",
   "type": "array",
   "items": {
     "type": "object",

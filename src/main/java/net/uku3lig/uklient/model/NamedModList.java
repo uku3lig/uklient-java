@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
-public class ModCategory {
+public class NamedModList {
     private String name;
     private List<String> mods;
 

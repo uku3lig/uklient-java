@@ -3,23 +3,6 @@
   <component name="JsonSchemaMappingsProjectConfiguration">
     <state>
       <map>
-        <entry key="categoryandpreset.schema">
-          <value>
-            <SchemaInfo>
-              <option name="generatedName" value="New Schema" />
-              <option name="name" value="categoryandpreset.schema" />
-              <option name="relativePathToSchema" value="src/main/resources/categorypreset.schema.json" />
-              <option name="schemaVersion" value="JSON Schema version 7" />
-              <option name="patterns">
-                <list>
-                  <Item>
-                    <option name="path" value="src/main/resources/categories.json" />
-                  </Item>
-                </list>
-              </option>
-            </SchemaInfo>
-          </value>
-        </entry>
         <entry key="mod.schema">
           <value>
             <SchemaInfo>
@@ -30,10 +13,27 @@
               <option name="patterns">
                 <list>
                   <Item>
-                    <option name="path" value="src/main/resources/modrinth.json" />
+                    <option name="path" value="src/main/resources/mods.json" />
+                  </Item>
+                </list>
+              </option>
+            </SchemaInfo>
+          </value>
+        </entry>
+        <entry key="namedmodlist.schema">
+          <value>
+            <SchemaInfo>
+              <option name="generatedName" value="New Schema" />
+              <option name="name" value="namedmodlist.schema" />
+              <option name="relativePathToSchema" value="src/main/resources/namedmodlist.schema.json" />
+              <option name="schemaVersion" value="JSON Schema version 7" />
+              <option name="patterns">
+                <list>
+                  <Item>
+                    <option name="path" value="src/main/resources/categories.json" />
                   </Item>
                   <Item>
-                    <option name="path" value="src/main/resources/mods.json" />
+                    <option name="path" value="src/main/resources/presets.json" />
                   </Item>
                 </list>
               </option>
