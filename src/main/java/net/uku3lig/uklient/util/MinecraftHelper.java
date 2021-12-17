@@ -1,6 +1,5 @@
 package net.uku3lig.uklient.util;
 
-import com.google.common.annotations.Beta;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.uku3lig.uklient.download.RequestManager;
@@ -35,17 +34,17 @@ public class MinecraftHelper {
         return dir.toAbsolutePath().normalize();
     }
 
-    @Beta
-    public static void createLauncherProfile(Path mcDir, String fabricLoaderVersion, String mcVersion) {
+    public static void createLauncherProfile(Path mcDir, Path installDir, String fabricVersion, String mcVersion) {
         LauncherProfile profile = new LauncherProfile();
         Instant now = Instant.now();
 
         profile.setCreated(now);
         profile.setLastPlayed(now);
         profile.setIcon(ICON);
-        profile.setLastVersionId(String.format("fabric-loader-%s-%s", fabricLoaderVersion, mcVersion));
+        profile.setLastVersionId(String.format("fabric-loader-%s-%s", fabricVersion, mcVersion));
         profile.setName("uklient for " + mcVersion);
         profile.setType("custom");
+        if (!installDir.equals(mcDir)) profile.setGameDir(installDir.normalize().toAbsolutePath().toString());
 
         Path p = mcDir.resolve("launcher_profiles.json").normalize().toAbsolutePath();
         JsonElement jsonProfile = RequestManager.getGson().toJsonTree(profile);
