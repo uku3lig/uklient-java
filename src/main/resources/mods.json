@@ -1,32 +1,86 @@
 [
   {
+    "name": "fabric",
+    "id": "P7dR8mSH",
+    "provider": "modrinth"
+  },
+  
+  {
     "name": "sodium",
     "id": "AANobbMI",
     "provider": "modrinth",
-    "fallback": [
-      {
-        "minecraftVersion": "1.17.1",
-        "versionId": "6YGRDUVT"
-      },
-      {
-        "minecraftVersion": "1.18",
-        "versionId": "3JJvf9Kn"
-      }
-    ],
-    "dependencies": [
-      "AZomiSrC",
-      "hEOCdOgW"
-    ],
-    "config": "sodiumDir"
   },
   {
-    "name": "litematica",
-    "id": "308892",
-    "provider": "curseforge",
-    "fallback": [],
+    "name": "lithium",
+    "id": "gvQqBUqZ",
+    "provider": "modrinth"
+  },
+  {
+    "name": "hydrogen",
+    "id": "AZomiSrC",
+    "provider": "modrinth"
+  },
+  {
+    "name": "starlight",
+    "id": "H8CaAYZC",
+    "provider": "modrinth"
+  },
+  {
+    "name": "lazydfu",
+    "id": "hvFnDODi",
+    "provider": "modrinth"
+  },
+  {
+    "name": "indium",
+    "id": "Orvt0mRa",
+    "provider": "modrinth"
+  },
+  {
+    "name": "lambdynamiclights",
+    "id": "yBW8D80W",
+    "provider": "modrinth"
+  },
+  {
+    "name": "modmenu",
+    "id": "mOgUt4GM",
+    "provider": "modrinth"
+  },
+  {
+    "name": "sodium-extra",
+    "id": "PtjYWJkn",
+    "provider": "modrinth",
+    "config": "sodium-extra-options.json"
+  },
+  {
+    "name": "ok-zoomer",
+    "id": "aXf2OSFU",
+    "provider": "modrinth",
     "dependencies": [
-      "303119",
-      "244260"
+      "UuqHBjf9"
     ]
+  },
+  {
+    "name": "dynamicfps",
+    "id": "LQ3K71Q1",
+    "provider": "modrinth", // FIXME FIND IT ON CURSEFORGE OR DO SOMETHING, CLOTH CONFIG NOT AVAILABLE ON MODRINTH
+    "dependencies": [
+      "mOgUt4GM",
+      "cloth config"
+    ] // TODO config
+  },
+  {
+    "name": "ferrite-core",
+    "id": "uXXizFIs",
+    "provider": "modrinth"
+  },
+  {
+    "name": "cull-leaves",
+    "id": "GNxdLCoP",
+    "provider": "modrinth"
+  },
+  {
+    "name": "continuity",
+    "id": "1IjD5062",
+    "provider": "modrinth"
   }
 ]
