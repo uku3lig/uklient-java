@@ -7,9 +7,8 @@ import java.time.Instant;
 @Data
 public class LauncherProfile {
     private Instant created;
+    private Instant lastPlayed;
     private String icon;
-    private String javaArgs;
-    private Instant lastUsed;
     private String lastVersionId;
     private String name;
     private String type;
