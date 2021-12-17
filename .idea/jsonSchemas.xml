@@ -3,12 +3,12 @@
   <component name="JsonSchemaMappingsProjectConfiguration">
     <state>
       <map>
-        <entry key="category.schema">
+        <entry key="categoryandpreset.schema">
           <value>
             <SchemaInfo>
               <option name="generatedName" value="New Schema" />
-              <option name="name" value="category.schema" />
-              <option name="relativePathToSchema" value="src/main/resources/category.schema.json" />
+              <option name="name" value="categoryandpreset.schema" />
+              <option name="relativePathToSchema" value="src/main/resources/categorypreset.schema.json" />
               <option name="schemaVersion" value="JSON Schema version 7" />
               <option name="patterns">
                 <list>
