@@ -3,7 +3,7 @@ package net.uku3lig.uklient.download;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import net.uku3lig.uklient.util.converters.InstantDeserializer;
+import net.uku3lig.uklient.util.converters.InstantConverter;
 import net.uku3lig.uklient.util.converters.URLDeserializer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,7 +35,7 @@ public class RequestManager {
         if (gson != null) return gson;
 
         GsonBuilder builder = new GsonBuilder()
-                .registerTypeAdapter(TypeToken.get(Instant.class).getType(), new InstantDeserializer())
+                .registerTypeAdapter(TypeToken.get(Instant.class).getType(), new InstantConverter())
                 .registerTypeAdapter(TypeToken.get(URL.class).getType(), new URLDeserializer())
         ;
 
