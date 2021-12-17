@@ -35,6 +35,7 @@ public class RequestManager {
         if (gson != null) return gson;
 
         GsonBuilder builder = new GsonBuilder()
+                .setPrettyPrinting()
                 .registerTypeAdapter(TypeToken.get(Instant.class).getType(), new InstantConverter())
                 .registerTypeAdapter(TypeToken.get(URL.class).getType(), new URLDeserializer())
         ;
