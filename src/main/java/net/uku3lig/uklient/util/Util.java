@@ -74,25 +74,5 @@ public class Util {
         return TypeToken.getParameterized(mainType, parameterType).getType();
     }
 
-    public static Path findMcDir() {
-        String os = System.getProperty("os.name").toLowerCase(Locale.ENGLISH);
-        Path dir;
-
-        if (os.contains("win") && System.getenv("APPDATA") != null) {
-            dir = Paths.get(System.getenv("APPDATA")).resolve(".minecraft");
-        } else {
-            String home = System.getProperty("user.home", ".");
-            Path homeDir = Paths.get(home);
-
-            if (os.contains("mac")) {
-                dir = homeDir.resolve("Library").resolve("Application Support").resolve("minecraft");
-            } else {
-                dir = homeDir.resolve(".minecraft"); // linux B)
-            }
-        }
-
-        return dir.toAbsolutePath().normalize();
-    }
-
     private Util() {}
 }
