@@ -1,6 +1,6 @@
 package net.uku3lig.uklient.download;
 
-import net.uku3lig.uklient.model.FabricInstallerMetadata;
+import net.uku3lig.uklient.model.FabricMetadata;
 import net.uku3lig.uklient.util.Util;
 import retrofit2.http.GET;
 
@@ -63,6 +63,6 @@ public class FabricInstaller {
 
     private interface FabricRequester {
         @GET("maven-metadata.xml")
-        CompletableFuture<FabricInstallerMetadata> getMetadata();
+        CompletableFuture<FabricMetadata> getMetadata();
     }
 }
