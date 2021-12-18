@@ -9,8 +9,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class CurseforgeDownloader {
     private static final String BASE_URL = "https://addons-ecs.forgesvc.net/api/v2/";
@@ -25,10 +25,10 @@ public class CurseforgeDownloader {
                 .exceptionally(t -> Util.NOT_FOUND);
     }
 
-    public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder) {
+    public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder, Executor e) {
         if (!destFolder.isDirectory())
             throw new IllegalArgumentException(destFolder.getAbsolutePath() + " is not a folder!!!");
-        return getMostRecentFile(modId, mcVer).thenCompose(u -> Downloader.download(u, Util.path(u, destFolder)));
+        return getMostRecentFile(modId, mcVer).thenCompose(u -> Downloader.download(u, Util.path(u, destFolder), e));
     }
 
     private CurseforgeDownloader() {
