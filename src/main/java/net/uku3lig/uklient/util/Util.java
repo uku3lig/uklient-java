@@ -3,13 +3,15 @@ package net.uku3lig.uklient.util;
 import com.google.gson.reflect.TypeToken;
 import lombok.SneakyThrows;
 
-import java.io.File;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -57,10 +59,10 @@ public class Util {
         return new URL(url);
     }
 
-    public static Path path(URL url, File folder) {
+    public static Path path(URL url, Path folder) {
         String[] strings = url.getPath().split("/");
         String filename = strings[strings.length - 1];
-        return folder.toPath().resolve(filename);
+        return folder.resolve(filename);
     }
 
     public static Path getTmpDir() {
