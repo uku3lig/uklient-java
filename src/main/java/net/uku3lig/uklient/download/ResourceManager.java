@@ -87,7 +87,7 @@ public class ResourceManager {
 
     public static List<NamedModList> getPresets() {
         if (presets.isEmpty()) presets.addAll(loadNamedModList("presets"));
-        return Collections.unmodifiableList(categories);
+        return Collections.unmodifiableList(presets);
     }
 
     public static NamedModList getPresetByName(String name) {
