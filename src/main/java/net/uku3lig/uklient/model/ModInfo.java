@@ -4,10 +4,12 @@ import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.uku3lig.uklient.download.ResourceManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.*;
 import java.util.List;
@@ -24,11 +26,12 @@ public class ModInfo {
     private List<String> dependencies;
     private String config;
 
+    @SneakyThrows(URISyntaxException.class)
     public Path getConfigPath(String preset) {
         URL configURL = getClass().getClassLoader().getResource("config");
         Objects.requireNonNull(configURL);
 
-        Path root = Paths.get(configURL.getPath()).normalize();
+        Path root = Paths.get(configURL.toURI()).normalize();
 
         Path configFile = root.resolve(preset + File.separator + config);
         if (!Files.exists(configFile)) configFile = root.resolve("common" + File.separator + config);
@@ -37,6 +40,7 @@ public class ModInfo {
     }
 
     public void copyConfig(String preset, Path destination) {
+        if (config == null) return;
         try {
             destination = destination.toAbsolutePath().normalize();
             Path configPath = getConfigPath(preset);
