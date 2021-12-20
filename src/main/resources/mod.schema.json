@@ -51,8 +51,7 @@
     "required": [
       "name",
       "id",
-      "provider",
-      "fallback"
+      "provider"
     ]
   }
 }
