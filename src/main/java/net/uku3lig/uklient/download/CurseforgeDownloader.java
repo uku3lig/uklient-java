@@ -28,7 +28,10 @@ public class CurseforgeDownloader {
     public static CompletableFuture<Void> download(String modId, String mcVer, java.nio.file.Path destFolder, Executor e) {
         if (!Files.isDirectory(destFolder))
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
-        return getMostRecentFile(modId, mcVer).thenCompose(u -> Downloader.download(u, Util.path(u, destFolder), e));
+        return getMostRecentFile(modId, mcVer).thenCompose(u -> {
+            if (Util.NOT_FOUND_URI.equals(Util.uri(u))) return CompletableFuture.completedFuture(null);
+            else return Downloader.download(u, Util.path(u, destFolder), e);
+        });
     }
 
     private CurseforgeDownloader() {

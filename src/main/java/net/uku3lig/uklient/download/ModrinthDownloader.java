@@ -32,7 +32,10 @@ public class ModrinthDownloader {
     public static CompletableFuture<Void> download(String modId, String mcVer, java.nio.file.Path destFolder, Executor e) {
         if (!Files.isDirectory(destFolder))
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
-        return getMostRecentFile(modId, mcVer).thenCompose(url -> Downloader.download(url, Util.path(url, destFolder), e));
+        return getMostRecentFile(modId, mcVer).thenCompose(url -> {
+            if (Util.NOT_FOUND_URI.equals(Util.uri(url))) return CompletableFuture.completedFuture(null);
+            else return Downloader.download(url, Util.path(url, destFolder), e);
+        });
     }
 
     private ModrinthDownloader() {
