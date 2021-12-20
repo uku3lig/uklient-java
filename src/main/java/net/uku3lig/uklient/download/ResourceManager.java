@@ -51,6 +51,7 @@ public class ResourceManager {
 
         return mods.stream()
                 .map(ModInfo::getDependencies)
+                .filter(Objects::nonNull)
                 .flatMap(Collection::stream)
                 .distinct()
                 .map(ResourceManager::getModFromId)
