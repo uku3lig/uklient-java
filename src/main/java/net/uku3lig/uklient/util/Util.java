@@ -16,11 +16,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Util {
     public static final URL NOT_FOUND = url("http://not.found");
+    public static final String SHORT_VER_PATTERN = "^1\\.\\d{1,2}$";
 
     public static <T> CompletableFuture<List<T>> allOf(Collection<CompletableFuture<T>> futures) {
         return accumulate(futures, Collectors.toList());
@@ -52,6 +54,16 @@ public class Util {
         }
 
         return result.thenApply(output);
+    }
+
+    public static boolean containsMcVer(String userMcVer, Collection<String> modMcVer) {
+        String shortVer = getShortVer(userMcVer);
+        return modMcVer.stream().anyMatch(s -> s.equalsIgnoreCase(userMcVer) || s.equalsIgnoreCase(shortVer));
+    }
+
+    public static String getShortVer(String mcVer) {
+        if (Pattern.matches(SHORT_VER_PATTERN, mcVer)) return mcVer;
+        return mcVer.substring(0, mcVer.lastIndexOf('.'));
     }
 
     @SneakyThrows(MalformedURLException.class)

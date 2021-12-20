@@ -18,7 +18,7 @@ public class CurseforgeDownloader {
 
     public static CompletableFuture<URL> getMostRecentFile(String modId, String mcVer) {
         return requester.getFiles(modId).thenApply(l -> l.stream()
-                        .filter(f -> f.getGameVersion().contains(mcVer))
+                        .filter(f -> Util.containsMcVer(mcVer, f.getGameVersion()))
                         .max(Comparator.comparing(CurseforgeFile::getFileDate))
                         .map(CurseforgeFile::getDownloadUrl)
                         .orElse(Util.NOT_FOUND))

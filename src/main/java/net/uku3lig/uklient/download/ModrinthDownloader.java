@@ -18,7 +18,7 @@ public class ModrinthDownloader {
 
     public static CompletableFuture<URL> getMostRecentFile(String modId, String mcVer) {
         return requester.getFiles(modId).thenApply(l -> l.stream()
-                        .filter(f -> f.getGameVersions().contains(mcVer))
+                        .filter(f -> Util.containsMcVer(mcVer, f.getGameVersions()))
                         .filter(f -> f.getLoaders().contains("fabric"))
                         .max(Comparator.comparing(ModrinthFile::getDatePublished))
                         .map(f -> f.getFiles().stream()
