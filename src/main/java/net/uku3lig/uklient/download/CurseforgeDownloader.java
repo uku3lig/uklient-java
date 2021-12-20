@@ -25,7 +25,7 @@ public class CurseforgeDownloader {
                 .exceptionally(t -> Util.NOT_FOUND);
     }
 
-    public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, java.nio.file.Path destFolder, Executor e) {
+    public static CompletableFuture<Void> download(String modId, String mcVer, java.nio.file.Path destFolder, Executor e) {
         if (!Files.isDirectory(destFolder))
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
         return getMostRecentFile(modId, mcVer).thenCompose(u -> Downloader.download(u, Util.path(u, destFolder), e));

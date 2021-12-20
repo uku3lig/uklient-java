@@ -27,9 +27,10 @@ public class FabricInstaller {
     }
 
     public static CompletableFuture<Void> installFabric(String mcVer, Path installDir, Executor exec) {
-        return getLatestFabricInstaller().thenCompose(u -> Downloader.download(u, Util.getTmpDir().resolve("fabric.jar"), exec))
-                .thenAccept(path -> {
-                    String[] command = getInstallCommand(path, mcVer, installDir);
+        Path fabric = Util.getTmpDir().resolve("fabric.jar");
+        return getLatestFabricInstaller().thenCompose(u -> Downloader.download(u, fabric, exec))
+                .thenAccept(v -> {
+                    String[] command = getInstallCommand(fabric, mcVer, installDir);
                     ProcessBuilder builder = new ProcessBuilder(command);
                     try {
                         Process proc = builder.inheritIO().start();

@@ -16,7 +16,7 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class Downloader {
     @SneakyThrows
-    public static CompletableFuture<Path> download(URL url, Path path, Executor executor) {
+    public static CompletableFuture<Void> download(URL url, Path path, Executor executor) {
         Path dir = path.getParent();
         if (!Files.isDirectory(dir)) {
             Files.createDirectories(dir);
@@ -35,7 +35,7 @@ public class Downloader {
                 System.err.println("Please retry later");
                 System.exit(1);
             }
-            return path;
+            return null;
         }, executor);
     }
 
