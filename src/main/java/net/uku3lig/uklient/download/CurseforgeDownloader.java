@@ -5,12 +5,12 @@ import net.uku3lig.uklient.util.Util;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 
-import java.io.File;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class CurseforgeDownloader {
     private static final String BASE_URL = "https://addons-ecs.forgesvc.net/api/v2/";
@@ -18,17 +18,20 @@ public class CurseforgeDownloader {
 
     public static CompletableFuture<URL> getMostRecentFile(String modId, String mcVer) {
         return requester.getFiles(modId).thenApply(l -> l.stream()
-                        .filter(f -> f.getGameVersion().contains(mcVer))
+                        .filter(f -> Util.containsMcVer(mcVer, f.getGameVersion()))
                         .max(Comparator.comparing(CurseforgeFile::getFileDate))
                         .map(CurseforgeFile::getDownloadUrl)
                         .orElse(Util.NOT_FOUND))
                 .exceptionally(t -> Util.NOT_FOUND);
     }
 
-    public static CompletableFuture<java.nio.file.Path> download(String modId, String mcVer, File destFolder) {
-        if (!destFolder.isDirectory())
-            throw new IllegalArgumentException(destFolder.getAbsolutePath() + " is not a folder!!!");
-        return getMostRecentFile(modId, mcVer).thenCompose(u -> Downloader.download(u, Util.path(u, destFolder)));
+    public static CompletableFuture<Void> download(String modId, String mcVer, java.nio.file.Path destFolder, Executor e) {
+        if (!Files.isDirectory(destFolder))
+            throw new IllegalArgumentException(destFolder + " is not a folder!!!");
+        return getMostRecentFile(modId, mcVer).thenCompose(u -> {
+            if (Util.NOT_FOUND_URI.equals(Util.uri(u))) return CompletableFuture.completedFuture(null);
+            else return Downloader.download(u, Util.path(u, destFolder), e);
+        });
     }
 
     private CurseforgeDownloader() {

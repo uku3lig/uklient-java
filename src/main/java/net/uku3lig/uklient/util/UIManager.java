@@ -146,7 +146,7 @@ public class UIManager {
         while (it.hasNext()) {
             char color = colors.get(it.nextIndex() % colors.size());
             String formatted = String.format(it.nextIndex() == defaultIndex ? DEFAULT_FORMAT : LIST_FORMAT,
-            OFF_COLOR, color, it.nextIndex()+1, OFF_COLOR, color, it.next());
+                    color, it.nextIndex()+1, color, it.next());
             System.out.println(Color.parse(formatted, Attribute.BOLD()));
         }
     }

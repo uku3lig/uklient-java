@@ -32,4 +32,4 @@ test {
     useJUnitPlatform()
 }
 
-mainClassName = "net.uku3lig.uklient.Test"
+mainClassName = "net.uku3lig.uklient.Main"
