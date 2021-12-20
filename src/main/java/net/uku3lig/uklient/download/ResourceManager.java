@@ -54,7 +54,7 @@ public class ResourceManager {
                 .filter(Objects::nonNull)
                 .flatMap(Collection::stream)
                 .distinct()
-                .map(ResourceManager::getModFromId)
+                .map(ResourceManager::getModFromName)
                 .collect(Collectors.toList());
     }
 
