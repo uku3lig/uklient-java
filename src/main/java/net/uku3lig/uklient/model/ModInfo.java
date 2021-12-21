@@ -24,6 +24,8 @@ public class ModInfo {
     private List<FallbackFile> fallback;
     private List<String> dependencies;
     private List<String> config;
+    @SerializedName("any-version")
+    private boolean anyVersion;
 
     @SneakyThrows(URISyntaxException.class)
     public Map<String, Path> getConfigResourcePaths(String preset) {
