@@ -98,7 +98,7 @@ public class Main {
         final Path finalMcPath = mcPath;
         final Path finalInstallDir = installDir;
 
-        FabricInstaller.installFabric(mcVer, installDir, executor)
+        FabricInstaller.installFabric(mcVer, mcPath, executor)
                 .thenCompose(v -> CompletableFuture.allOf(mods.stream().map(m -> {
                     if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
                         return ModrinthDownloader.download(m, mcVer, modPath, executor);
