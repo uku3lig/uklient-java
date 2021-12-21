@@ -5,9 +5,8 @@ import com.google.gson.JsonObject;
 import net.uku3lig.uklient.download.RequestManager;
 import net.uku3lig.uklient.model.LauncherProfile;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
@@ -53,7 +52,7 @@ public class MinecraftHelper {
             JsonObject root = RequestManager.getGson().fromJson(reader, JsonObject.class);
             root.getAsJsonObject("profiles").add("uklient+"+mcVersion, jsonProfile);
 
-            FileWriter writer = new FileWriter(p.toFile());
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(p.toFile()), StandardCharsets.UTF_8));
             RequestManager.getGson().toJson(root, writer);
 
             writer.flush();
