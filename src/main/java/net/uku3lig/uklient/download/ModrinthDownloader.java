@@ -1,5 +1,6 @@
 package net.uku3lig.uklient.download;
 
+import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.ModrinthFile;
 import net.uku3lig.uklient.util.Util;
 import retrofit2.http.GET;
@@ -16,9 +17,9 @@ public class ModrinthDownloader {
     private static final String BASE_URL = "https://api.modrinth.com/api/v1/";
     private static final ModrinthRequester requester = RequestManager.supplyRetrofit(BASE_URL).create(ModrinthRequester.class);
 
-    public static CompletableFuture<URL> getMostRecentFile(String modId, String mcVer) {
-        return requester.getFiles(modId).thenApply(l -> l.stream()
-                        .filter(f -> Util.containsMcVer(mcVer, f.getGameVersions()))
+    public static CompletableFuture<URL> getMostRecentFile(ModInfo mod, String mcVer) {
+        return requester.getFiles(mod.getId()).thenApply(l -> l.stream()
+                        .filter(f -> Util.containsMcVer(mcVer, f.getGameVersions()) || mod.isAnyVersion())
                         .filter(f -> f.getLoaders().contains("fabric"))
                         .max(Comparator.comparing(ModrinthFile::getDatePublished))
                         .map(f -> f.getFiles().stream()
@@ -29,10 +30,10 @@ public class ModrinthDownloader {
                 .exceptionally(t -> Util.NOT_FOUND);
     }
 
-    public static CompletableFuture<Void> download(String modId, String mcVer, java.nio.file.Path destFolder, Executor e) {
+    public static CompletableFuture<Void> download(ModInfo mod, String mcVer, java.nio.file.Path destFolder, Executor e) {
         if (!Files.isDirectory(destFolder))
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
-        return getMostRecentFile(modId, mcVer).thenCompose(url -> {
+        return getMostRecentFile(mod, mcVer).thenCompose(url -> {
             if (Util.NOT_FOUND_URI.equals(Util.uri(url))) return CompletableFuture.completedFuture(null);
             else return Downloader.download(url, Util.path(url, destFolder), e);
         });

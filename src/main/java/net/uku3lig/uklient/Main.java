@@ -101,8 +101,8 @@ public class Main {
         FabricInstaller.installFabric(mcVer, installDir, executor)
                 .thenCompose(v -> CompletableFuture.allOf(mods.stream().map(m -> {
                     if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
-                        return ModrinthDownloader.download(m.getId(), mcVer, modPath, executor);
-                    else return CurseforgeDownloader.download(m.getId(), mcVer, modPath, executor);
+                        return ModrinthDownloader.download(m, mcVer, modPath, executor);
+                    else return CurseforgeDownloader.download(m, mcVer, modPath, executor);
                 }).toArray(CompletableFuture[]::new)))
                 .thenRun(() -> mods.forEach(m -> m.copyConfig(preset.getName(), configPath)))
                 .thenCompose(v -> FabricInstaller.getLatestFabricLoader())
