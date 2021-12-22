@@ -37,22 +37,27 @@ public class ModInfo {
         Path common = root.resolve("common");
 
         return config.stream()
-                .collect(Collectors.toMap(c -> c, c -> {
+                .map(c -> {
                     Path configFile = root.resolve(preset).resolve(c);
                     if (!Files.exists(configFile)) configFile = common.resolve(c);
-                    return configFile.toAbsolutePath().normalize();
-                }));
+                    if (!Files.exists(configFile)) return null;
+                    configFile = configFile.toAbsolutePath().normalize();
+                    return new AbstractMap.SimpleEntry<>(c, configFile);
+                }).filter(Objects::nonNull)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public void copyConfig(String preset, Path destination) {
         if (config == null || config.isEmpty()) return;
         Path mcConfigPath = destination.toAbsolutePath().normalize();
+        Map<String, Path> paths = getConfigResourcePaths(preset);
+        if (paths.isEmpty()) return;
 
         try {
             if (!Files.isDirectory(mcConfigPath)) Files.deleteIfExists(mcConfigPath);
             Files.createDirectories(mcConfigPath);
 
-            for (Map.Entry<String, Path> resource : getConfigResourcePaths(preset).entrySet()) {
+            for (Map.Entry<String, Path> resource : paths.entrySet()) {
                 Path copyPath = mcConfigPath.resolve(resource.getKey());
                 if (Files.isDirectory(resource.getValue())) Files.walkFileTree(resource.getValue(), ResourceManager.getVisitor(resource.getValue(), copyPath));
                 else Files.copy(resource.getValue(), destination);
