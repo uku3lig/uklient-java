@@ -59,9 +59,11 @@ public class Util {
         return result.thenApply(output);
     }
 
+    public static final String VERSION_PATTERN = "(\\.\\d+)?(-(pre|rc)\\d+)?$";
+
     public static boolean containsMcVer(String userMcVer, Collection<String> modMcVer) {
-        String shortVer = getShortVer(userMcVer);
-        return modMcVer.stream().anyMatch(s -> s.equalsIgnoreCase(userMcVer) || s.equalsIgnoreCase(shortVer));
+        String pattern = "^" + getShortVer(userMcVer) + VERSION_PATTERN;
+        return modMcVer.stream().anyMatch(s -> s.matches(pattern));
     }
 
     public static String getShortVer(String mcVer) {
