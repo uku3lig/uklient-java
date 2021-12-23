@@ -8,7 +8,10 @@
   {
     "name": "sodium",
     "id": "AANobbMI",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "config": [
+      "sodium-options.json"
+    ]
   },
   {
     "name": "lithium",
@@ -33,54 +36,260 @@
   {
     "name": "indium",
     "id": "Orvt0mRa",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric",
+      "sodium"
+    ]
   },
   {
     "name": "lambdynamiclights",
     "id": "yBW8D80W",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "lambdynlights.toml"
+    ]
   },
   {
     "name": "modmenu",
     "id": "mOgUt4GM",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "modmenu.json"
+    ]
   },
   {
     "name": "sodium-extra",
     "id": "PtjYWJkn",
     "provider": "modrinth",
-    "config": "sodium-extra-options.json"
+    "config": [
+      "sodium-extra-options.json"
+    ],
+    "dependencies": [
+      "sodium",
+      "fabric"
+    ]
   },
   {
     "name": "ok-zoomer",
     "id": "aXf2OSFU",
     "provider": "modrinth",
     "dependencies": [
-      "UuqHBjf9"
+      "libzoomer",
+      "fabric"
+    ],
+    "config": [
+      "okzoomer.json5"
     ]
   },
   {
     "name": "dynamicfps",
     "id": "LQ3K71Q1",
-    "provider": "modrinth", // FIXME FIND IT ON CURSEFORGE OR DO SOMETHING, CLOTH CONFIG NOT AVAILABLE ON MODRINTH
+    "provider": "modrinth",
     "dependencies": [
-      "mOgUt4GM",
-      "cloth config"
-    ] // TODO config
+      "modmenu",
+      "cloth-config",
+      "fabric"
+    ],
+    "config": [
+      "dynamicfps.toml"
+    ]
   },
   {
     "name": "ferrite-core",
     "id": "uXXizFIs",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "config": [
+      "ferritecore.mixin.properties"
+    ]
   },
   {
     "name": "cull-leaves",
     "id": "GNxdLCoP",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "cullleaves.json"
+    ]
   },
   {
     "name": "continuity",
     "id": "1IjD5062",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "config": [
+      "continuity.json"
+    ],
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "presence-footsteps",
+    "id": "rcTfTZr3",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "blur",
+    "id": "NK39zBp2",
+    "provider": "modrinth",
+    "config": [
+      "blur.json"
+    ],
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "inspecio",
+    "id": "a93H3mKU",
+    "provider": "modrinth",
+    "config": [
+      "inspecio.json"
+    ],
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "not-enough-crashes",
+    "id": "yM94ont6",
+    "provider": "modrinth",
+    "config": [
+      "notenoughcrashes.json"
+    ]
+  },
+  {
+    "name": "antighost",
+    "id": "Jw3Wx1KR",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "charmonium",
+    "id": "bpii4Xsa",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "bobby",
+    "id": "M08ruV16",
+    "provider": "modrinth",
+    "config": [
+      "bobby.conf"
+    ]
+  },
+  {
+    "name": "fvt",
+    "id": "TjrP0eTG",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "c2me",
+    "id": "VSNURh3q",
+    "provider": "modrinth",
+    "config": [
+      "c2me.toml"
+    ]
+  },
+  {
+    "name": "mod-manager",
+    "id": "6kq7BzRK",
+    "provider": "modrinth",
+    "dependencies": [
+      "modmenu",
+      "fabric-language-kotlin"
+    ]
+  },
+  {
+    "name": "afkpeace",
+    "id": "65jTHvHz",
+    "provider": "modrinth",
+    "config": [
+      "afkpeace.properties"
+    ],
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "easier-crafting",
+    "id": "UylF21yz",
+    "provider": "modrinth",
+    "config": [
+      "easiercrafting.json"
+    ],
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "better-recipe-book",
+    "id": "vWIaVOTE",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric",
+      "cloth-config",
+      "architectury"
+    ]
+  },
+  {
+    "name": "stendhal",
+    "id": "BWloQ9jK",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "durability-viewer",
+    "id": "LTM1f0yY",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+
+
+  {
+    "name": "libzoomer",
+    "id": "UuqHBjf9",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "cloth-config",
+    "id": "319057",
+    "provider": "curseforge"
+  },
+  {
+    "name": "fabric-language-kotlin",
+    "id": "Ha28R6CL",
+    "provider": "modrinth",
+    "any-version": true
+  },
+  {
+    "name": "architectury",
+    "id": "419697",
+    "provider": "curseforge"
   }
 ]
