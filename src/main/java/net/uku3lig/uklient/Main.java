@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -67,8 +68,7 @@ public class Main {
         List<String> presetNames = ResourceManager.getPresets().stream().map(NamedModList::getName).collect(Collectors.toList());
         NamedModList preset = ResourceManager.getPresetByName(presetNames.get(UIManager.choice(presetNames, 0)));
 
-        List<ModInfo> mods = preset.getModInfos();
-        mods.addAll(ResourceManager.getDependencies(mods));
+        Collection<ModInfo> mods = ResourceManager.addDependencies(preset.getModInfos());
 
         if (!Files.isDirectory(installDir)) {
             try {

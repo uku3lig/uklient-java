@@ -46,29 +46,29 @@ public class ResourceManager {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public static List<ModInfo> getDependencies(Collection<ModInfo> mods) {
-        if (mods.isEmpty()) return Collections.emptyList();
+    public static Collection<ModInfo> addDependencies(Collection<ModInfo> mods) {
+        if (mods == null || mods.isEmpty() || mods.stream().map(ModInfo::getDependencies).filter(Objects::nonNull).mapToLong(Collection::size).sum() == 0)
+            return new ArrayList<>();
 
         return mods.stream()
-                .map(ModInfo::getDependencies)
-                .filter(Objects::nonNull)
+                .map(ResourceManager::getDependencies)
                 .flatMap(Collection::stream)
                 .distinct()
-                .map(ResourceManager::getModFromName)
                 .collect(Collectors.toList());
     }
 
-    /* TODO i may need to use this code some day
-    if (e.getKey().equals(ModInfo.Provider.MODRINTH)) {
-                        return e.getValue().stream()
-                                .map(id -> ModrinthDownloader.getMostRecentFile(id, mcVer))
-                                .collect(Collectors.toList());
-                    } else {
-                        return e.getValue().stream()
-                                .map(id -> CurseforgeDownloader.getMostRecentFile(id, mcVer))
-                                .collect(Collectors.toList());
-                    }
-     */
+    private static Collection<ModInfo> getDependencies(ModInfo m) {
+        if (m.getDependencies() == null) return new ArrayList<>(Collections.singleton(m));
+
+        List<ModInfo> deps = m.getDependencies().stream()
+                .map(ResourceManager::getModFromName)
+                .collect(Collectors.toList());
+
+        Collection<ModInfo> c = addDependencies(deps);
+        c.addAll(deps);
+        c.add(m);
+        return c;
+    }
 
     // CATEGORY RELATED METHODS
 
