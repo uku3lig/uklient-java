@@ -47,8 +47,8 @@ public class ResourceManager {
     }
 
     public static Collection<ModInfo> addDependencies(Collection<ModInfo> mods) {
-        if (mods == null || mods.isEmpty() || mods.stream().map(ModInfo::getDependencies).filter(Objects::nonNull).mapToLong(Collection::size).sum() == 0)
-            return new ArrayList<>();
+        if (mods == null || mods.isEmpty()) return new ArrayList<>();
+        if (mods.stream().map(ModInfo::getDependencies).filter(Objects::nonNull).mapToLong(Collection::size).sum() == 0) return mods;
 
         return mods.stream()
                 .map(ResourceManager::getDependencies)
@@ -65,7 +65,6 @@ public class ResourceManager {
                 .collect(Collectors.toList());
 
         Collection<ModInfo> c = addDependencies(deps);
-        c.addAll(deps);
         c.add(m);
         return c;
     }
