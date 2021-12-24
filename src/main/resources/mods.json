@@ -266,6 +266,111 @@
       "fabric"
     ]
   },
+  {
+    "name": "iris",
+    "id": "YL57xq9U",
+    "provider": "modrinth",
+    "dependencies": [
+      "sodium"
+    ],
+    "config": [
+      "iris.properties"
+    ]
+  },
+  {
+    "name": "krypton",
+    "id": "fQEb0iXm",
+    "provider": "modrinth"
+  },
+  {
+    "name": "phosphor",
+    "id": "hEOCdOgW",
+    "provider": "modrinth"
+  },
+  {
+    "name": "lambda-better-grass",
+    "id": "2Uev7LdA",
+    "provider": "modrinth",
+    "config": [
+      "lambdabettergrass.toml"
+    ],
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "enhanced-block-entities",
+    "id": "OVuFYfre",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric",
+      "indium"
+    ],
+    "config": [
+      "enhanced_bes.properties",
+      "rrp.properties"
+    ]
+  },
+  {
+    "name": "wthit",
+    "id": "6AQIaxuO",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "waila"
+    ]
+  },
+  {
+    "name": "fabrishot",
+    "id": "3qsfQtE9",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric",
+      "cloth-config"
+    ],
+    "config": [
+      "fabrishot.properties"
+    ]
+  },
+  {
+    "name": "smooth-boot",
+    "id": "FWumhS4T",
+    "provider": "modrinth",
+    "config": [
+      "smoothboot.json"
+    ]
+  },
+  {
+    "name": "vt-downloader",
+    "id": "1E2sq1cp",
+    "provider": "modrinth"
+  },
+  {
+    "name": "fps-display",
+    "id": "DIlqwRFH",
+    "provider": "modrinth",
+    "config": [
+      "fpsdisplay.json"
+    ]
+  },
+  {
+    "name": "isometric-renders",
+    "id": "M0aimenU",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ]
+  },
+  {
+    "name": "betterf3",
+    "id": "8shC1gFX",
+    "provider": "modrinth",
+    "config": [
+      "betterf3.json"
+    ]
+  },
 
 
   {
