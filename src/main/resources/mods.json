@@ -2,7 +2,10 @@
   {
     "name": "fabric",
     "id": "P7dR8mSH",
-    "provider": "modrinth"
+    "provider": "modrinth",
+    "config": [
+      "fabric"
+    ]
   },
   
   {
@@ -137,6 +140,9 @@
     "provider": "modrinth",
     "dependencies": [
       "fabric"
+    ],
+    "config": [
+      "presencefootsteps"
     ]
   },
   {
@@ -216,6 +222,9 @@
     "dependencies": [
       "modmenu",
       "fabric-language-kotlin"
+    ],
+    "config": [
+      "modmanager.json"
     ]
   },
   {
@@ -256,6 +265,9 @@
     "provider": "modrinth",
     "dependencies": [
       "fabric"
+    ],
+    "config": [
+      "stendhal"
     ]
   },
   {
@@ -264,6 +276,9 @@
     "provider": "modrinth",
     "dependencies": [
       "fabric"
+    ],
+    "config": [
+      "durabilityviewer.json"
     ]
   },
   {
