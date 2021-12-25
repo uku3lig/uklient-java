@@ -31,7 +31,7 @@ public class CurseforgeDownloader {
         if (!Files.isDirectory(destFolder))
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
         return getMostRecentFile(mod, mcVer).thenCompose(u -> {
-            if (Util.NOT_FOUND_URI.equals(Util.uri(u))) {
+            if (Util.NOT_FOUND.toString().equalsIgnoreCase(u.toString())) {
                 System.err.printf("\r%s does not have a file for %s%n", mod.getName(), mcVer);
                 return CompletableFuture.completedFuture(null);
             }

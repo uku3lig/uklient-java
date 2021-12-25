@@ -5,10 +5,7 @@ import lombok.SneakyThrows;
 import me.tongfei.progressbar.*;
 
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -25,7 +22,6 @@ import java.util.stream.Collectors;
 
 public class Util {
     public static final URL NOT_FOUND = url("http://not.found");
-    public static final URI NOT_FOUND_URI = uri(NOT_FOUND);
     public static final String SHORT_VER_PATTERN = "^1\\.\\d{1,2}$";
 
     public static <T> CompletableFuture<List<T>> allOf(Collection<CompletableFuture<T>> futures) {
@@ -75,11 +71,6 @@ public class Util {
     @SneakyThrows(MalformedURLException.class)
     public static URL url(String url) {
         return new URL(url);
-    }
-
-    @SneakyThrows(URISyntaxException.class)
-    public static URI uri(URL url) {
-        return url.toURI();
     }
 
     public static Path path(URL url, Path folder) {
