@@ -386,6 +386,31 @@
       "betterf3.json"
     ]
   },
+  {
+    "name": "capes",
+    "id": "89Wsn8GD",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric",
+      "fabric-language-kotlin"
+    ],
+    "config": [
+      "capes.json5"
+    ]
+  },
+  {
+    "name": "clear-skies",
+    "id": "xNK6XfRv",
+    "provider": "modrinth"
+  },
+  {
+    "name": "craftpresence",
+    "id": "297038",
+    "provider": "curseforge",
+    "config": [
+      "craftpresence.properties"
+    ]
+  },
 
 
   {
