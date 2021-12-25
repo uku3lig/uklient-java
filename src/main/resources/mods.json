@@ -411,6 +411,175 @@
       "craftpresence.properties"
     ]
   },
+  {
+    "name": "entity-culling",
+    "id": "448233",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "entityculling.json"
+    ]
+  },
+  {
+    "name": "carpet",
+    "id": "349239",
+    "provider": "curseforge"
+  },
+  {
+    "name": "carpet-extra",
+    "id": "349240",
+    "provider": "curseforge",
+    "dependencies": [
+      "carpet"
+    ]
+  },
+  {
+    "name": "voxelmap",
+    "id": "225179",
+    "provider": "curseforge",
+    "config": [
+      "voxelmap.properties"
+    ]
+  },
+  {
+    "name": "xaeros-minimap",
+    "id": "263420",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "xaerominimap.txt",
+      "xaerominimap_entities.json",
+      "xaeropatreon.txt"
+    ]
+  },
+  {
+    "name": "fast-chest",
+    "id": "436038",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "fast-chest.properties"
+    ]
+  },
+  {
+    "name": "horse-stats",
+    "id": "l4qoXLzx",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "horsestatsvanilla.json5"
+    ]
+  },
+  {
+    "name": "inventory-hud",
+    "id": "357540",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "inventoryhud.json"
+    ]
+  },
+  {
+    "name": "item-model-fix",
+    "id": "399798",
+    "provider": "curseforge",
+    "config": [
+      "itemmodelfix.json"
+    ]
+  },
+  {
+    "name": "light-overlay",
+    "id": "325492",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric",
+      "architectury"
+    ],
+    "config": [
+      "lightoverlay.properties"
+    ]
+  },
+  {
+    "name": "shulkerbox-tooltip",
+    "id": "315811",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "shulkerboxtooltip.json5"
+    ]
+  },
+  {
+    "name": "tabtps",
+    "id": "cUhi3iB2",
+    "provider": "modrinth",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "TabTPS"
+    ]
+  },
+  {
+    "name": "worldedit",
+    "id": "225608",
+    "provider": "curseforge"
+  },
+  {
+    "name": "litematica",
+    "id": "308892",
+    "provider": "curseforge",
+    "dependencies": [
+      "malilib"
+    ],
+    "config": [
+      "litematica.json"
+    ]
+  },
+  {
+    "name": "tweakeroo",
+    "id": "297344",
+    "provider": "curseforge",
+    "dependencies": [
+      "malilib"
+    ],
+    "config": [
+      "tweakeroo.json"
+    ]
+  },
+  {
+    "name": "item-scroller",
+    "id": "242064",
+    "provider": "curseforge",
+    "dependencies": [
+      "malilib"
+    ],
+    "config": [
+      "itemscroller.json"
+    ]
+  },
+  {
+    "name": "minihud",
+    "id": "244260",
+    "provider": "curseforge",
+    "dependencies": [
+      "malilib"
+    ],
+    "config": [
+      "minihud.json"
+    ]
+  },
 
 
   {
@@ -436,5 +605,13 @@
     "name": "architectury",
     "id": "419697",
     "provider": "curseforge"
+  },
+  {
+    "name": "malilib",
+    "id": "303119",
+    "provider": "curseforge",
+    "config": [
+      "malilib.json"
+    ]
   }
 ]
