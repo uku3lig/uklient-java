@@ -2,6 +2,7 @@ package net.uku3lig.uklient.util;
 
 import com.google.gson.reflect.TypeToken;
 import lombok.SneakyThrows;
+import me.tongfei.progressbar.*;
 
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -96,6 +97,16 @@ public class Util {
         Type mainType = TypeToken.get(main).getType();
         Type parameterType = TypeToken.get(parameter).getType();
         return TypeToken.getParameterized(mainType, parameterType).getType();
+    }
+
+    public static ProgressBar getProgressBar(String taskName, int max) {
+        return new ProgressBarBuilder()
+                .setTaskName(taskName)
+                .setInitialMax(max)
+                .setStyle(ProgressBarStyle.ASCII)
+                .setUpdateIntervalMillis(100)
+                .setConsumer(new ConsoleProgressBarConsumer(System.out))
+                .build();
     }
 
     private Util() {}

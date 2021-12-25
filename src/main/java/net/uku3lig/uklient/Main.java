@@ -1,5 +1,6 @@
 package net.uku3lig.uklient;
 
+import me.tongfei.progressbar.ProgressBar;
 import net.uku3lig.uklient.download.CurseforgeDownloader;
 import net.uku3lig.uklient.download.FabricInstaller;
 import net.uku3lig.uklient.download.ModrinthDownloader;
@@ -8,6 +9,7 @@ import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.NamedModList;
 import net.uku3lig.uklient.util.MinecraftHelper;
 import net.uku3lig.uklient.util.UIManager;
+import net.uku3lig.uklient.util.Util;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -98,13 +100,18 @@ public class Main {
         final Path finalMcPath = mcPath;
         final Path finalInstallDir = installDir;
 
+
         FabricInstaller.installFabric(mcVer, mcPath, executor)
-                .thenCompose(v -> CompletableFuture.allOf(mods.stream().distinct()
-                        .map(m -> {
-                            if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
-                                return ModrinthDownloader.download(m, mcVer, modPath, executor);
-                            else return CurseforgeDownloader.download(m, mcVer, modPath, executor);
-                        }).toArray(CompletableFuture[]::new)))
+                .thenCompose(v -> {
+                    final ProgressBar pb = Util.getProgressBar("Download Mods", mods.size());
+                    return CompletableFuture.allOf(mods.stream().distinct()
+                                    .map(m -> {
+                                        if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
+                                            return ModrinthDownloader.download(m, mcVer, modPath, executor);
+                                        else return CurseforgeDownloader.download(m, mcVer, modPath, executor);
+                                    }).map(c -> c.thenRun(pb::step)).toArray(CompletableFuture[]::new))
+                            .thenRun(pb::close).thenRun(System.out::println);
+                })
                 .thenRun(() -> mods.forEach(m -> m.copyConfig(preset.getName(), configPath)))
                 .thenCompose(v -> FabricInstaller.getLatestFabricLoader())
                 .thenAccept(f -> MinecraftHelper.createLauncherProfile(finalMcPath, finalInstallDir, f, mcVer))

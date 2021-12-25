@@ -35,7 +35,7 @@ public class ModrinthDownloader {
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
         return getMostRecentFile(mod, mcVer).thenCompose(url -> {
             if (Util.NOT_FOUND_URI.equals(Util.uri(url))) {
-                System.err.printf("%s does not have a file for %s%n", mod.getName(), mcVer);
+                System.err.printf("\r%s does not have a file for %s%n", mod.getName(), mcVer);
                 return CompletableFuture.completedFuture(null);
             }
             else return Downloader.download(url, Util.path(url, destFolder), e);

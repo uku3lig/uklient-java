@@ -23,9 +23,9 @@ dependencies {
 	implementation 'org.reflections:reflections:0.10.2'
 
     implementation 'com.diogonunes:JColor:5.2.0'
+    implementation "me.tongfei:progressbar:0.9.2"
 
     implementation "com.google.guava:guava:31.0.1-jre"
-
 }
 
 test {
