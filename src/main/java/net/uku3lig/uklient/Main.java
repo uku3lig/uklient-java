@@ -1,5 +1,6 @@
 package net.uku3lig.uklient;
 
+import com.diogonunes.jcolor.Attribute;
 import me.tongfei.progressbar.ProgressBar;
 import net.uku3lig.uklient.download.CurseforgeDownloader;
 import net.uku3lig.uklient.download.FabricInstaller;
@@ -7,6 +8,7 @@ import net.uku3lig.uklient.download.ModrinthDownloader;
 import net.uku3lig.uklient.download.ResourceManager;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.NamedModList;
+import net.uku3lig.uklient.util.Color;
 import net.uku3lig.uklient.util.MinecraftHelper;
 import net.uku3lig.uklient.util.UIManager;
 import net.uku3lig.uklient.util.Util;
@@ -15,9 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static final String COW =
-            " ___________________________ \n" +
+            "&f ___________________________ \n" +
             "< uklient installer poggers >\n" +
             " --------------------------- \n" +
             "        \\   ^__^\n" +
@@ -38,8 +38,7 @@ public class Main {
     public static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public static void main(String[] args) {
-        System.out.println(COW);
-        System.out.println("\n\n");
+        System.out.println(Color.parse(COW, Attribute.BOLD()));
 
         Path mcPath = MinecraftHelper.findMcDir();
         while (!Files.isDirectory(mcPath) || !Files.exists(mcPath.resolve("launcher_profiles.json"))) {
@@ -47,9 +46,11 @@ public class Main {
             mcPath = Paths.get(UIManager.input("Please input your .minecraft directory path")).normalize().toAbsolutePath();
         }
 
-        System.out.println("Please choose a Minecraft version:");
+        System.out.println("\n\n");
+        System.out.println(Color.parse("&3Please choose a Minecraft version:", Attribute.BOLD()));
         final String mcVer = AVAILABLE_MC_VERSIONS.get(UIManager.choice(AVAILABLE_MC_VERSIONS));
 
+        System.out.println(Color.parse("\n\n&3Please choose an installation directory:", Attribute.BOLD()));
         List<String> choices = Arrays.asList("Install in .uklient (recommended)",
                 "Install in .minecraft (will delete all your current mods)", "Install in another directory");
         Path installDir;
@@ -118,7 +119,7 @@ public class Main {
                 .thenRun(() -> mods.forEach(m -> m.copyConfig(preset.getName(), configPath)))
                 .thenCompose(v -> FabricInstaller.getLatestFabricLoader())
                 .thenAccept(f -> MinecraftHelper.createLauncherProfile(finalMcPath, finalInstallDir, f, mcVer))
-                .thenRun(() -> System.out.println("uklient installed! you can now close this window"));
+                .thenRun(() -> System.out.println(Color.parse("&3uklient installed! you can now close this window", Attribute.BOLD())));
 
         // todo copy resource packs / options.txt
     }
