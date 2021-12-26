@@ -60,7 +60,7 @@ public class ModInfo {
             for (Map.Entry<String, Path> resource : paths.entrySet()) {
                 Path copyPath = mcConfigPath.resolve(resource.getKey());
                 if (Files.isDirectory(resource.getValue())) Files.walkFileTree(resource.getValue(), ResourceManager.getVisitor(resource.getValue(), copyPath));
-                else Files.copy(resource.getValue(), destination);
+                else Files.copy(resource.getValue(), copyPath, StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
             System.err.println("Could not copy config file " + config);

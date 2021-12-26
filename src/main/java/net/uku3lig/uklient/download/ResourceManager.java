@@ -136,7 +136,7 @@ public class ResourceManager {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Path p = target.resolve(source.relativize(file));
-                Files.copy(file, p);
+                Files.copy(file, p, StandardCopyOption.REPLACE_EXISTING);
                 return FileVisitResult.CONTINUE;
             }
         };
