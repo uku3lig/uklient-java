@@ -580,6 +580,28 @@
       "minihud.json"
     ]
   },
+  {
+    "name": "fancymenu",
+    "id": "416796",
+    "provider": "curseforge",
+    "dependencies": [
+      "konkrete",
+      "fabric",
+      "load-my-resources"
+    ],
+    "config": [
+      "fancymenu"
+    ]
+  },
+  {
+    "name": "custom-window-title",
+    "id": "360673",
+    "provider": "curseforge",
+    "config": [
+      "customwindowtitle-client.toml",
+      "windowicons"
+    ]
+  },
 
 
   {
@@ -612,6 +634,28 @@
     "provider": "curseforge",
     "config": [
       "malilib.json"
+    ]
+  },
+  {
+    "name": "konkrete",
+    "id": "416797",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "konkrete"
+    ]
+  },
+  {
+    "name": "load-my-resources",
+    "id": "534835",
+    "provider": "curseforge",
+    "dependencies": [
+      "fabric"
+    ],
+    "config": [
+      "loadmyresources"
     ]
   }
 ]

@@ -12,7 +12,10 @@ while copying all of the needed config files.
 Due to how it is made, uklient can support any mod that is either on Modrinth or Curseforge!
 If you want me to add a mod, just open a pull request with the needed info (mod id or link) and it may be added!
 
-mod list is WIP
+### Current presets
+ - **uku**: my personal mod list
+ - **minimal**: a minimal mod list that focuses on performance
+ - **foli**: the mod list from [Foli Client](https://github.com/foliclient/FoliClientInstaller) by ablazingeboy
 
 ## Building from source
 

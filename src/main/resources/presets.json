@@ -5,5 +5,51 @@
     "mods": [
       "sodium"
     ]
+  },
+  {
+    "name": "minimal",
+    "display_name": "Minimal",
+    "mods": [
+      "sodium",
+      "lithium",
+      "hydrogen",
+      "starlight",
+      "lazydfu",
+      "modmenu",
+      "sodium-extra",
+      "ok-zoomer",
+      "ferrite-core",
+      "cull-leaves",
+      "not-enough-crashes",
+      "mod-manager",
+      "enhanced-block-entities",
+      "fps-display",
+      "capes",
+      "craftpresence",
+      "entity-culling",
+      "custom-window-title"
+    ]
+  },
+  {
+    "name": "foli",
+    "display_name": "Foli Client",
+    "mods": [
+      "craftpresence",
+      "inventory-hud",
+      "dynamicfps",
+      "voxelmap",
+      "fancymenu",
+      "fast-chest",
+      "ferrite-core",
+      "litematica",
+      "minihud",
+      "modmenu",
+      "lithium",
+      "ok-zoomer",
+      "sodium",
+      "sodium-extra",
+      "iris",
+      "custom-window-title"
+    ]
   }
 ]
