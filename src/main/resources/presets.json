@@ -1,6 +1,7 @@
 [
   {
     "name": "default",
+    "display_name": "uku's preset",
     "mods": [
       "sodium"
     ]

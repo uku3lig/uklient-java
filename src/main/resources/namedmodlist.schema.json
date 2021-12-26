@@ -10,6 +10,9 @@
       "name": {
         "type": "string"
       },
+      "display_name": {
+        "type": "string"
+      },
       "mods": {
         "type": "array",
         "items": {
@@ -19,6 +22,7 @@
     },
     "required": [
       "name",
+      "display_name",
       "mods"
     ]
   }

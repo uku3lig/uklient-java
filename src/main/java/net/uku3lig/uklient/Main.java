@@ -66,9 +66,12 @@ public class Main {
                 } while (Files.exists(installDir) && !Files.isDirectory(installDir));
         }
 
-        System.out.println("Please choose a preset:");
-        List<String> presetNames = ResourceManager.getPresets().stream().map(NamedModList::getName).collect(Collectors.toList());
-        NamedModList preset = ResourceManager.getPresetByName(presetNames.get(UIManager.choice(presetNames, 0)));
+        System.out.println(Color.parse("\n\n&3Please choose a preset:", Attribute.BOLD()));
+        LinkedHashMap<String, String> presetNames = new LinkedHashMap<>(ResourceManager.getPresets().stream()
+                .collect(Collectors.toMap(NamedModList::getDisplayName, NamedModList::getName)));
+        List<String> displayNames = new LinkedList<>(presetNames.keySet());
+
+        NamedModList preset = ResourceManager.getPresetByName(presetNames.get(displayNames.get(UIManager.choice(displayNames, 0))));
 
         Collection<ModInfo> mods = ResourceManager.addDependencies(preset.getModInfos());
 
