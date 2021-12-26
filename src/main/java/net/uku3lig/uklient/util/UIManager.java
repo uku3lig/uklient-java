@@ -15,11 +15,17 @@ public class UIManager {
     private static final String WRONG_INPUT_MESSAGE = "Wrong input, please retry.";
     private static final String TOO_MANY_WRONG = "Too many wrong answers. Be gone.";
 
-    private static final List<Character> colors = Arrays.asList('6', '2', '3', '4', '5');
     private static final char OFF_COLOR = '1';
+    private static final int COLOR_AMOUNT = getColors().size();
     private static final String LIST_FORMAT = "_[&%c%s_] &%c%s".replace("_", "&"+OFF_COLOR);
     private static final String MAP_FORMAT = "_[%s_] [&%c%s_] &%c%s".replace("_", "&"+OFF_COLOR);
     private static final String DEFAULT_FORMAT = LIST_FORMAT + String.format(" &%c(default)", OFF_COLOR);
+
+    private static List<Character> getColors() {
+        List<Character> colors = Arrays.asList('2', '6', '9', 'a', 'e');
+        Collections.shuffle(colors);
+        return colors;
+    }
 
     /**
      * Makes the user choose
@@ -144,7 +150,7 @@ public class UIManager {
     public static void printList(List<String> list, int defaultIndex) {
         ListIterator<String> it = list.listIterator();
         while (it.hasNext()) {
-            char color = colors.get(it.nextIndex() % colors.size());
+            char color = getColors().get(it.nextIndex() % COLOR_AMOUNT);
             String formatted = String.format(it.nextIndex() == defaultIndex ? DEFAULT_FORMAT : LIST_FORMAT,
                     color, it.nextIndex()+1, color, it.next());
             System.out.println(Color.parse(formatted, Attribute.BOLD()));
@@ -163,7 +169,7 @@ public class UIManager {
         ListIterator<Map.Entry<String, Boolean>> it = elements.listIterator();
         while (it.hasNext()) {
             Map.Entry<String, Boolean> next = it.next();
-            char color = colors.get(it.nextIndex() % colors.size());
+            char color = getColors().get(it.nextIndex() % COLOR_AMOUNT);
             String bool = Boolean.TRUE.equals(next.getValue()) ? "&a✓" : "&c✗";
             String formatted = String.format(MAP_FORMAT, bool, color, it.nextIndex(), color, next.getKey());
             System.out.println(Color.parse(formatted, Attribute.BOLD()));
