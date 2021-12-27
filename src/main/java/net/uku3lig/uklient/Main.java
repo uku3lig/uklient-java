@@ -107,7 +107,7 @@ public class Main {
 
         FabricInstaller.installFabric(mcVer, mcPath, executor)
                 .thenCompose(v -> {
-                    final ProgressBar pb = Util.getProgressBar("Download Mods", mods.size());
+                    final ProgressBar pb = Util.getProgressBar("Downloading Mods", mods.size());
                     return CompletableFuture.allOf(mods.stream().distinct()
                                     .map(m -> {
                                         if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
@@ -117,10 +117,12 @@ public class Main {
                             .thenRun(pb::close).thenRun(System.out::println);
                 })
                 .thenRun(() -> mods.forEach(m -> m.copyConfig(preset.getName(), configPath)))
+                .thenRun(() -> System.out.println("Copied all config files"))
                 .thenCompose(v -> FabricInstaller.getLatestFabricLoader())
                 .thenAccept(f -> MinecraftHelper.createLauncherProfile(finalMcPath, finalInstallDir, f, mcVer))
-                .thenRun(() -> System.out.println(Color.parse("&3uklient installed! you can now close this window", Attribute.BOLD())));
-
-        // todo copy resource packs / options.txt
+                .thenRun(() -> System.out.println("Created launcher profile"))
+                .thenRun(() -> MinecraftHelper.copyUserFiles(finalMcPath, finalInstallDir))
+                .thenRun(() -> System.out.println("Copied resource packs and options"))
+                .thenRun(() -> System.out.println(Color.parse("\n&3uklient installed! you can now close this window", Attribute.BOLD())));
     }
 }

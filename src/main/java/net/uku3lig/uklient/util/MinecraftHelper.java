@@ -3,10 +3,12 @@ package net.uku3lig.uklient.util;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.uku3lig.uklient.download.RequestManager;
+import net.uku3lig.uklient.download.ResourceManager;
 import net.uku3lig.uklient.model.LauncherProfile;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
@@ -59,6 +61,27 @@ public class MinecraftHelper {
             writer.close();
         } catch (IOException e) {
             System.err.println("Could not create launcher profile. Please try again later.");
+            System.exit(1);
+        }
+    }
+
+    public static void copyUserFiles(Path mcPath, Path uklientPath) {
+        Path mcOptions = mcPath.resolve("options.txt");
+        Path mcPacks = mcPath.resolve("resourcepacks");
+        Path mcServers = mcPath.resolve("servers.dat");
+
+        Path uklientOptions = uklientPath.resolve("options.txt");
+        Path uklientPacks = uklientPath.resolve("resourcepacks");
+        Path uklientServers = uklientPath.resolve("servers.dat");
+
+        try {
+            Files.createDirectories(uklientPacks);
+            Files.walkFileTree(mcPacks, ResourceManager.getVisitor(mcPacks, uklientPacks));
+
+            if (!Files.exists(uklientOptions)) Files.copy(mcOptions, uklientOptions);
+            if (!Files.exists(uklientServers)) Files.copy(mcServers, uklientServers);
+        } catch (IOException e) {
+            System.err.println("Could not copy resourcepacks, options and servers. Please try again later.");
             System.exit(1);
         }
     }
