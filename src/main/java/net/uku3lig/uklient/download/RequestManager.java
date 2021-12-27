@@ -37,8 +37,7 @@ public class RequestManager {
         GsonBuilder builder = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(TypeToken.get(Instant.class).getType(), new InstantConverter())
-                .registerTypeAdapter(TypeToken.get(URL.class).getType(), new URLDeserializer())
-        ;
+                .registerTypeAdapter(TypeToken.get(URL.class).getType(), new URLDeserializer());
 
         gson = builder.create();
         return gson;
