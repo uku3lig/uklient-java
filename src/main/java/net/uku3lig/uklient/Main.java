@@ -5,7 +5,7 @@ import me.tongfei.progressbar.ProgressBar;
 import net.uku3lig.uklient.download.CurseforgeDownloader;
 import net.uku3lig.uklient.download.FabricInstaller;
 import net.uku3lig.uklient.download.ModrinthDownloader;
-import net.uku3lig.uklient.download.ResourceManager;
+import net.uku3lig.uklient.util.ResourceManager;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.NamedModList;
 import net.uku3lig.uklient.util.Color;

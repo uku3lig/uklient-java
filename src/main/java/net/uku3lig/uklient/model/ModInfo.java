@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.uku3lig.uklient.download.ResourceManager;
+import net.uku3lig.uklient.util.ResourceManager;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

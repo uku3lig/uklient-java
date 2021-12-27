@@ -3,7 +3,6 @@ package net.uku3lig.uklient.util;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.uku3lig.uklient.download.RequestManager;
-import net.uku3lig.uklient.download.ResourceManager;
 import net.uku3lig.uklient.model.LauncherProfile;
 
 import java.io.*;

@@ -1,8 +1,8 @@
-package net.uku3lig.uklient.download;
+package net.uku3lig.uklient.util;
 
+import net.uku3lig.uklient.download.RequestManager;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.NamedModList;
-import net.uku3lig.uklient.util.Util;
 
 import java.io.IOException;
 import java.io.InputStream;

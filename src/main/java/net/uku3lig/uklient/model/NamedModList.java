@@ -3,7 +3,7 @@ package net.uku3lig.uklient.model;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.uku3lig.uklient.download.ResourceManager;
+import net.uku3lig.uklient.util.ResourceManager;
 
 import java.util.List;
 import java.util.NoSuchElementException;
