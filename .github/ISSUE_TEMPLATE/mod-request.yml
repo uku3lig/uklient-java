@@ -3,6 +3,9 @@ description: Request a mod
 title: "[MOD]: <insert mod name here>"
 labels: ["mod request"]
 body:
+  - type: markdown
+    attributes:
+      value: "## Don't forget to change the title right above!"£
   - type: input
     id: link
     attributes:
