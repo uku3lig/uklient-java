@@ -35,7 +35,7 @@ If you want me to add a mod, just open a pull request with the needed info (mod 
 ### Current presets
  - **uku**: my personal mod list
  - **minimal**: a minimal mod list that focuses on performance
- - **foli**: the mod list from [Foli Client](https://github.com/foliclient/FoliClientInstaller) by ablazingeboy
+ - **foli**: inspired from ablazingeboy's [Foli Client](https://github.com/foliclient/FoliClientInstaller)
 
 ## Building from source
 
