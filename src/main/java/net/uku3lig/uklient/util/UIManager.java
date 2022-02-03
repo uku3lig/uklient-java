@@ -22,7 +22,7 @@ public class UIManager {
     private static final String DEFAULT_FORMAT = LIST_FORMAT + String.format(" &%c(default)", OFF_COLOR);
 
     private static List<Character> getColors() {
-        List<Character> colors = Arrays.asList('2', '6', '9', 'a', 'e');
+        List<Character> colors = Arrays.asList('2', '6', '9', '5');
         Collections.shuffle(colors);
         return colors;
     }
@@ -149,8 +149,9 @@ public class UIManager {
 
     public static void printList(List<String> list, int defaultIndex) {
         ListIterator<String> it = list.listIterator();
+        List<Character> colors = getColors();
         while (it.hasNext()) {
-            char color = getColors().get(it.nextIndex() % COLOR_AMOUNT);
+            char color = colors.get(it.nextIndex() % COLOR_AMOUNT);
             String formatted = String.format(it.nextIndex() == defaultIndex ? DEFAULT_FORMAT : LIST_FORMAT,
                     color, it.nextIndex()+1, color, it.next());
             System.out.println(Color.parse(formatted, Attribute.BOLD()));
@@ -167,9 +168,10 @@ public class UIManager {
 
     public static void printMap(List<Map.Entry<String, Boolean>> elements) {
         ListIterator<Map.Entry<String, Boolean>> it = elements.listIterator();
+        List<Character> colors = getColors();
         while (it.hasNext()) {
             Map.Entry<String, Boolean> next = it.next();
-            char color = getColors().get(it.nextIndex() % COLOR_AMOUNT);
+            char color = colors.get(it.nextIndex() % COLOR_AMOUNT);
             String bool = Boolean.TRUE.equals(next.getValue()) ? "&a✓" : "&c✗";
             String formatted = String.format(MAP_FORMAT, bool, color, it.nextIndex(), color, next.getKey());
             System.out.println(Color.parse(formatted, Attribute.BOLD()));
