@@ -5,13 +5,9 @@ import me.tongfei.progressbar.ProgressBar;
 import net.uku3lig.uklient.download.CurseforgeDownloader;
 import net.uku3lig.uklient.download.FabricInstaller;
 import net.uku3lig.uklient.download.ModrinthDownloader;
-import net.uku3lig.uklient.util.ResourceManager;
+import net.uku3lig.uklient.util.*;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.NamedModList;
-import net.uku3lig.uklient.util.Color;
-import net.uku3lig.uklient.util.MinecraftHelper;
-import net.uku3lig.uklient.util.UIManager;
-import net.uku3lig.uklient.util.Util;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -25,8 +21,8 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static final String COW =
-            "&f ___________________________ \n" +
-            "< uklient installer poggers >\n" +
+            " ___________________________ \n" +
+            "< &luklient installer poggers&r >\n" +
             " --------------------------- \n" +
             "        \\   ^__^\n" +
             "         \\  (oo)\\_______\n" +
