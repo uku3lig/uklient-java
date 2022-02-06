@@ -1,8 +1,9 @@
 # uklient
 
 [![wakatime](https://wakatime.com/badge/github/uku3lig/uklient.svg)](https://wakatime.com/badge/github/uku3lig/uklient)
-![GitHub all releases](https://img.shields.io/github/downloads/uku3lig/uklient/total)
+[![GitHub all releases](https://img.shields.io/github/downloads/uku3lig/uklient/total)](https://github.com/uku3lig/uklient/releases)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/uku3lig/uklient.svg)](https://lgtm.com/projects/g/uku3lig/uklient/context:java)
+[![Resources](https://img.shields.io/badge/resources-uklient--resources-informational)](https://github.com/uku3lig/uklient-resources)
 
 **uklient** is a flexible, lightweight and easy to use Minecraft client installer.
 It installs everything for you, from downloading the most recent version of each mod, to installing fabric by itself, 
