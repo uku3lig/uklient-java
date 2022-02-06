@@ -30,7 +30,7 @@ public class ModrinthDownloader {
                 .exceptionally(t -> Util.NOT_FOUND);
     }
 
-    public static CompletableFuture<Void> download(ModInfo mod, String mcVer, java.nio.file.Path destFolder, Executor e) {
+    public static CompletableFuture<java.nio.file.Path> download(ModInfo mod, String mcVer, java.nio.file.Path destFolder, Executor e) {
         if (!Files.isDirectory(destFolder))
             throw new IllegalArgumentException(destFolder + " is not a folder!!!");
         return getMostRecentFile(mod, mcVer).thenCompose(url -> {
