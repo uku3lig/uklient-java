@@ -1,5 +1,8 @@
 package net.uku3lig.uklient.util;
 
+import net.lingala.zip4j.ZipFile;
+import net.uku3lig.uklient.Main;
+import net.uku3lig.uklient.download.Downloader;
 import net.uku3lig.uklient.download.RequestManager;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.model.NamedModList;
@@ -9,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -18,6 +22,9 @@ public class ResourceManager {
     private static final List<ModInfo> mods = new ArrayList<>();
     private static final List<NamedModList> categories = new ArrayList<>();
     private static final List<NamedModList> presets = new ArrayList<>();
+
+    private static final Path DEFAULT_RESOURCES_DIR = Util.getTmpDir().resolve("uklient-resources-master");
+    private static final URL RESOURCES_URL = Util.url("https://github.com/uku3lig/uklient-resources/archive/master.zip");
 
     // MOD RELATED METHODS
 
@@ -98,6 +105,22 @@ public class ResourceManager {
     }
 
     // UTIL METHODS
+
+    private static Path getResourcesDir() {
+        if (Files.isDirectory(DEFAULT_RESOURCES_DIR)) return DEFAULT_RESOURCES_DIR;
+
+        Downloader.downloadInDir(RESOURCES_URL, Util.getTmpDir(), Main.executor).thenAccept(out -> {
+            try (ZipFile file = new ZipFile(out.toFile())) {
+                file.extractAll(Util.getTmpDir().toAbsolutePath().toString());
+            } catch (IOException e) {
+                System.err.println("Something wrong happened while updating presets and mods");
+                e.printStackTrace();
+                System.exit(1);
+            }
+        });
+
+        return DEFAULT_RESOURCES_DIR;
+    }
 
     private static Collection<ModInfo> loadMods() {
         // try with resources to ensure that everything closes correctly
