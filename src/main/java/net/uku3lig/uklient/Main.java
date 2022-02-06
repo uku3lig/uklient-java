@@ -7,7 +7,7 @@ import net.uku3lig.uklient.download.FabricInstaller;
 import net.uku3lig.uklient.download.ModrinthDownloader;
 import net.uku3lig.uklient.util.*;
 import net.uku3lig.uklient.model.ModInfo;
-import net.uku3lig.uklient.model.NamedModList;
+import net.uku3lig.uklient.model.ModList;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -65,10 +65,10 @@ public class Main {
 
         System.out.println(Color.parse("\n\n&3Please choose a preset:", Attribute.BOLD()));
         LinkedHashMap<String, String> presetNames = new LinkedHashMap<>(ResourceManager.getPresets().stream()
-                .collect(Collectors.toMap(NamedModList::getDisplayName, NamedModList::getName)));
+                .collect(Collectors.toMap(ModList::getDisplayName, ModList::getName)));
         List<String> displayNames = new LinkedList<>(presetNames.keySet());
 
-        NamedModList preset = ResourceManager.getPresetByName(presetNames.get(displayNames.get(UIManager.choice(displayNames, 0))));
+        ModList preset = ResourceManager.getPresetByName(presetNames.get(displayNames.get(UIManager.choice(displayNames, 0))));
 
         Collection<ModInfo> mods = ResourceManager.addDependencies(preset.getModInfos());
 

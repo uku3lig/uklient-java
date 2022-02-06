@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
-public class NamedModList {
+public class ModList {
     private String name;
     @SerializedName("display_name")
     private String displayName;
