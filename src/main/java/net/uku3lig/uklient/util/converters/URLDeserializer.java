@@ -12,6 +12,7 @@ import java.net.URL;
 public class URLDeserializer implements JsonDeserializer<URL> {
     @Override
     public URL deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return Util.url(json.getAsString());
+        String encoded = json.getAsString().replaceAll("\\s", "%20");
+        return Util.url(encoded);
     }
 }

@@ -2,12 +2,10 @@ package net.uku3lig.uklient.util;
 
 import com.google.gson.reflect.TypeToken;
 import lombok.SneakyThrows;
+import me.tongfei.progressbar.*;
 
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
+import java.net.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -24,7 +22,6 @@ import java.util.stream.Collectors;
 
 public class Util {
     public static final URL NOT_FOUND = url("http://not.found");
-    public static final URI NOT_FOUND_URI = uri(NOT_FOUND);
     public static final String SHORT_VER_PATTERN = "^1\\.\\d{1,2}$";
 
     public static <T> CompletableFuture<List<T>> allOf(Collection<CompletableFuture<T>> futures) {
@@ -59,9 +56,11 @@ public class Util {
         return result.thenApply(output);
     }
 
+    public static final String VERSION_PATTERN = "(\\.\\d+)?(-(pre|rc)\\d+)?$";
+
     public static boolean containsMcVer(String userMcVer, Collection<String> modMcVer) {
-        String shortVer = getShortVer(userMcVer);
-        return modMcVer.stream().anyMatch(s -> s.equalsIgnoreCase(userMcVer) || s.equalsIgnoreCase(shortVer));
+        String pattern = "^" + getShortVer(userMcVer) + VERSION_PATTERN;
+        return modMcVer.stream().anyMatch(s -> s.matches(pattern));
     }
 
     public static String getShortVer(String mcVer) {
@@ -72,11 +71,6 @@ public class Util {
     @SneakyThrows(MalformedURLException.class)
     public static URL url(String url) {
         return new URL(url);
-    }
-
-    @SneakyThrows(URISyntaxException.class)
-    public static URI uri(URL url) {
-        return url.toURI();
     }
 
     public static Path path(URL url, Path folder) {
@@ -94,6 +88,16 @@ public class Util {
         Type mainType = TypeToken.get(main).getType();
         Type parameterType = TypeToken.get(parameter).getType();
         return TypeToken.getParameterized(mainType, parameterType).getType();
+    }
+
+    public static ProgressBar getProgressBar(String taskName, int max) {
+        return new ProgressBarBuilder()
+                .setTaskName(taskName)
+                .setInitialMax(max)
+                .setStyle(ProgressBarStyle.ASCII)
+                .setUpdateIntervalMillis(100)
+                .setConsumer(new ConsoleProgressBarConsumer(System.out))
+                .build();
     }
 
     private Util() {}

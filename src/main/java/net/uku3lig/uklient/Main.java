@@ -1,20 +1,19 @@
 package net.uku3lig.uklient;
 
+import com.diogonunes.jcolor.Attribute;
+import me.tongfei.progressbar.ProgressBar;
 import net.uku3lig.uklient.download.CurseforgeDownloader;
 import net.uku3lig.uklient.download.FabricInstaller;
 import net.uku3lig.uklient.download.ModrinthDownloader;
-import net.uku3lig.uklient.download.ResourceManager;
+import net.uku3lig.uklient.util.*;
 import net.uku3lig.uklient.model.ModInfo;
-import net.uku3lig.uklient.model.NamedModList;
-import net.uku3lig.uklient.util.MinecraftHelper;
-import net.uku3lig.uklient.util.UIManager;
+import net.uku3lig.uklient.model.ModList;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 public class Main {
     public static final String COW =
             " ___________________________ \n" +
-            "< uklient installer poggers >\n" +
+            "< &luklient installer poggers&r >\n" +
             " --------------------------- \n" +
             "        \\   ^__^\n" +
             "         \\  (oo)\\_______\n" +
@@ -35,8 +34,7 @@ public class Main {
     public static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public static void main(String[] args) {
-        System.out.println(COW);
-        System.out.println("\n\n");
+        System.out.println(Color.parse(COW, Attribute.BOLD()));
 
         Path mcPath = MinecraftHelper.findMcDir();
         while (!Files.isDirectory(mcPath) || !Files.exists(mcPath.resolve("launcher_profiles.json"))) {
@@ -44,9 +42,11 @@ public class Main {
             mcPath = Paths.get(UIManager.input("Please input your .minecraft directory path")).normalize().toAbsolutePath();
         }
 
-        System.out.println("Please choose a Minecraft version:");
+        System.out.println("\n\n");
+        System.out.println(Color.parse("&3Please choose a Minecraft version:", Attribute.BOLD()));
         final String mcVer = AVAILABLE_MC_VERSIONS.get(UIManager.choice(AVAILABLE_MC_VERSIONS));
 
+        System.out.println(Color.parse("\n\n&3Please choose an installation directory:", Attribute.BOLD()));
         List<String> choices = Arrays.asList("Install in .uklient (recommended)",
                 "Install in .minecraft (will delete all your current mods)", "Install in another directory");
         Path installDir;
@@ -63,12 +63,14 @@ public class Main {
                 } while (Files.exists(installDir) && !Files.isDirectory(installDir));
         }
 
-        System.out.println("Please choose a preset:");
-        List<String> presetNames = ResourceManager.getPresets().stream().map(NamedModList::getName).collect(Collectors.toList());
-        NamedModList preset = ResourceManager.getPresetByName(presetNames.get(UIManager.choice(presetNames, 0)));
+        System.out.println(Color.parse("\n\n&3Please choose a preset:", Attribute.BOLD()));
+        LinkedHashMap<String, String> presetNames = new LinkedHashMap<>(ResourceManager.getPresets().stream()
+                .collect(Collectors.toMap(ModList::getDisplayName, ModList::getName)));
+        List<String> displayNames = new LinkedList<>(presetNames.keySet());
 
-        List<ModInfo> mods = preset.getModInfos();
-        mods.addAll(ResourceManager.getDependencies(mods));
+        ModList preset = ResourceManager.getPresetByName(presetNames.get(displayNames.get(UIManager.choice(displayNames, 0))));
+
+        Collection<ModInfo> mods = ResourceManager.addDependencies(preset.getModInfos());
 
         if (!Files.isDirectory(installDir)) {
             try {
@@ -98,17 +100,25 @@ public class Main {
         final Path finalMcPath = mcPath;
         final Path finalInstallDir = installDir;
 
-        FabricInstaller.installFabric(mcVer, installDir, executor)
-                .thenCompose(v -> CompletableFuture.allOf(mods.stream().map(m -> {
-                    if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
-                        return ModrinthDownloader.download(m.getId(), mcVer, modPath, executor);
-                    else return CurseforgeDownloader.download(m.getId(), mcVer, modPath, executor);
-                }).toArray(CompletableFuture[]::new)))
+
+        FabricInstaller.installFabric(mcVer, mcPath, executor)
+                .thenCompose(v -> {
+                    final ProgressBar pb = Util.getProgressBar("Downloading Mods", mods.size());
+                    return CompletableFuture.allOf(mods.stream().distinct()
+                                    .map(m -> {
+                                        if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
+                                            return ModrinthDownloader.download(m, mcVer, modPath, executor);
+                                        else return CurseforgeDownloader.download(m, mcVer, modPath, executor);
+                                    }).map(c -> c.thenRun(pb::step)).toArray(CompletableFuture[]::new))
+                            .thenRun(pb::close).thenRun(System.out::println);
+                })
                 .thenRun(() -> mods.forEach(m -> m.copyConfig(preset.getName(), configPath)))
+                .thenRun(() -> System.out.println("Copied all config files"))
                 .thenCompose(v -> FabricInstaller.getLatestFabricLoader())
                 .thenAccept(f -> MinecraftHelper.createLauncherProfile(finalMcPath, finalInstallDir, f, mcVer))
-                .thenRun(() -> System.out.println("uklient installed! you can now close this window"));
-
-        // todo copy resource packs / options.txt
+                .thenRun(() -> System.out.println("Created launcher profile"))
+                .thenRun(() -> MinecraftHelper.copyUserFiles(finalMcPath, finalInstallDir))
+                .thenRun(() -> System.out.println("Copied resource packs and options"))
+                .thenRun(() -> System.out.println(Color.parse("\n&3uklient installed! you can now close this window", Attribute.BOLD())));
     }
 }

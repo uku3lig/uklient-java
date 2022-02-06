@@ -1,6 +1,7 @@
 package net.uku3lig.uklient.download;
 
 import lombok.SneakyThrows;
+import net.uku3lig.uklient.util.Util;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -15,15 +16,19 @@ import java.util.concurrent.Executor;
 import static java.nio.file.StandardOpenOption.*;
 
 public class Downloader {
+    public static CompletableFuture<Path> downloadInDir(URL url, Path dir, Executor executor) {
+        return download(url, Util.path(url, dir), executor);
+    }
+
     @SneakyThrows
-    public static CompletableFuture<Void> download(URL url, Path path, Executor executor) {
-        Path dir = path.getParent();
+    public static CompletableFuture<Path> download(URL url, Path filePath, Executor executor) {
+        Path dir = filePath.getParent();
         if (!Files.isDirectory(dir)) {
             Files.createDirectories(dir);
         }
         return CompletableFuture.supplyAsync(() -> {
             try (ReadableByteChannel in = Channels.newChannel(url.openStream());
-                 FileChannel out = FileChannel.open(path, CREATE, TRUNCATE_EXISTING, WRITE)) {
+                 FileChannel out = FileChannel.open(filePath, CREATE, WRITE)) {
 
                 URLConnection conn = url.openConnection();
                 long fileSize = conn.getContentLengthLong();
@@ -35,7 +40,7 @@ public class Downloader {
                 System.err.println("Please retry later");
                 System.exit(1);
             }
-            return null;
+            return filePath;
         }, executor);
     }
 

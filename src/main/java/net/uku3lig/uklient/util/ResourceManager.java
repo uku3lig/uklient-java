@@ -1,14 +1,15 @@
-package net.uku3lig.uklient.download;
+package net.uku3lig.uklient.util;
 
+import net.lingala.zip4j.ZipFile;
+import net.uku3lig.uklient.Main;
+import net.uku3lig.uklient.download.Downloader;
+import net.uku3lig.uklient.download.RequestManager;
 import net.uku3lig.uklient.model.ModInfo;
-import net.uku3lig.uklient.model.NamedModList;
-import net.uku3lig.uklient.util.Util;
+import net.uku3lig.uklient.model.ModList;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.net.URL;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -16,8 +17,11 @@ import java.util.stream.Collectors;
 
 public class ResourceManager {
     private static final List<ModInfo> mods = new ArrayList<>();
-    private static final List<NamedModList> categories = new ArrayList<>();
-    private static final List<NamedModList> presets = new ArrayList<>();
+    private static final List<ModList> categories = new ArrayList<>();
+    private static final List<ModList> presets = new ArrayList<>();
+
+    private static final Path RESOURCES_DIR = getResourcesDir();
+    private static final URL RESOURCES_URL = Util.url("https://github.com/uku3lig/uklient-resources/archive/master.zip");
 
     // MOD RELATED METHODS
 
@@ -46,38 +50,38 @@ public class ResourceManager {
                 .orElseThrow(NoSuchElementException::new);
     }
 
-    public static List<ModInfo> getDependencies(Collection<ModInfo> mods) {
-        if (mods.isEmpty()) return Collections.emptyList();
+    public static Collection<ModInfo> addDependencies(Collection<ModInfo> mods) {
+        if (mods == null || mods.isEmpty()) return new ArrayList<>();
+        if (mods.stream().map(ModInfo::getDependencies).filter(Objects::nonNull).mapToLong(Collection::size).sum() == 0)
+            return mods;
 
         return mods.stream()
-                .map(ModInfo::getDependencies)
-                .filter(Objects::nonNull)
+                .map(ResourceManager::getDependencies)
                 .flatMap(Collection::stream)
                 .distinct()
-                .map(ResourceManager::getModFromId)
                 .collect(Collectors.toList());
     }
 
-    /* TODO i may need to use this code some day
-    if (e.getKey().equals(ModInfo.Provider.MODRINTH)) {
-                        return e.getValue().stream()
-                                .map(id -> ModrinthDownloader.getMostRecentFile(id, mcVer))
-                                .collect(Collectors.toList());
-                    } else {
-                        return e.getValue().stream()
-                                .map(id -> CurseforgeDownloader.getMostRecentFile(id, mcVer))
-                                .collect(Collectors.toList());
-                    }
-     */
+    private static Collection<ModInfo> getDependencies(ModInfo m) {
+        if (m.getDependencies() == null) return new ArrayList<>(Collections.singleton(m));
+
+        List<ModInfo> deps = m.getDependencies().stream()
+                .map(ResourceManager::getModFromName)
+                .collect(Collectors.toList());
+
+        Collection<ModInfo> c = addDependencies(deps);
+        c.add(m);
+        return c;
+    }
 
     // CATEGORY RELATED METHODS
 
-    public static List<NamedModList> getCategories() {
+    public static List<ModList> getCategories() {
         if (categories.isEmpty()) categories.addAll(loadNamedModList("categories"));
         return Collections.unmodifiableList(categories);
     }
 
-    public static NamedModList getCategoryByName(String name) {
+    public static ModList getCategoryByName(String name) {
         return getCategories().stream()
                 .filter(c -> c.getName().equalsIgnoreCase(name))
                 .findFirst()
@@ -86,12 +90,12 @@ public class ResourceManager {
 
     // PRESET METHODS
 
-    public static List<NamedModList> getPresets() {
+    public static List<ModList> getPresets() {
         if (presets.isEmpty()) presets.addAll(loadNamedModList("presets"));
         return Collections.unmodifiableList(presets);
     }
 
-    public static NamedModList getPresetByName(String name) {
+    public static ModList getPresetByName(String name) {
         return getPresets().stream()
                 .filter(c -> c.getName().equalsIgnoreCase(name))
                 .findFirst()
@@ -100,10 +104,21 @@ public class ResourceManager {
 
     // UTIL METHODS
 
+    private static Path getResourcesDir() {
+        Path out = Downloader.downloadInDir(RESOURCES_URL, Util.getTmpDir(), Main.executor).join();
+        try (ZipFile file = new ZipFile(out.toFile())) {
+            file.extractAll(Util.getTmpDir().toAbsolutePath().toString());
+        } catch (IOException e) {
+            System.err.println("Something wrong happened while updating presets and mods");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return out;
+    }
+
     private static Collection<ModInfo> loadMods() {
-        // try with resources to ensure that everything closes correctly
-        try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream("mods.json"));
-             Reader reader = new InputStreamReader(is)) {
+        try (Reader reader = new FileReader(RESOURCES_DIR.resolve("mods.json").toFile())) {
             Type listType = Util.getParametrized(List.class, ModInfo.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
@@ -113,10 +128,9 @@ public class ResourceManager {
         return Collections.emptyList();
     }
 
-    private static Collection<NamedModList> loadNamedModList(String filename) {
-        try (InputStream is = Objects.requireNonNull(ResourceManager.class.getClassLoader().getResourceAsStream(filename + ".json"));
-             Reader reader = new InputStreamReader(is)) {
-            Type listType = Util.getParametrized(List.class, NamedModList.class);
+    private static Collection<ModList> loadNamedModList(String filename) {
+        try (Reader reader = new FileReader(RESOURCES_DIR.resolve(filename + ".json").toFile())) {
+            Type listType = Util.getParametrized(List.class, ModList.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
             System.err.println("Could not load categories. please retry later");
@@ -137,7 +151,7 @@ public class ResourceManager {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                 Path p = target.resolve(source.relativize(file));
-                Files.copy(file, p);
+                Files.copy(file, p, StandardCopyOption.REPLACE_EXISTING);
                 return FileVisitResult.CONTINUE;
             }
         };

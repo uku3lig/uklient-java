@@ -5,15 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.uku3lig.uklient.download.ResourceManager;
+import net.uku3lig.uklient.util.ResourceManager;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.*;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -24,34 +23,45 @@ public class ModInfo {
     private Provider provider;
     private List<FallbackFile> fallback;
     private List<String> dependencies;
-    private String config;
+    private List<String> config;
+    @SerializedName("any-version")
+    private boolean anyVersion;
 
     @SneakyThrows(URISyntaxException.class)
-    public Path getConfigPath(String preset) {
+    public Map<String, Path> getConfigResourcePaths(String preset) {
+        if (config == null || config.isEmpty()) return Collections.emptyMap();
         URL configURL = getClass().getClassLoader().getResource("config");
         Objects.requireNonNull(configURL);
 
         Path root = Paths.get(configURL.toURI()).normalize();
+        Path common = root.resolve("common");
 
-        Path configFile = root.resolve(preset + File.separator + config);
-        if (!Files.exists(configFile)) configFile = root.resolve("common" + File.separator + config);
-
-        return configFile.toAbsolutePath().normalize();
+        return config.stream()
+                .map(c -> {
+                    Path configFile = root.resolve(preset).resolve(c);
+                    if (!Files.exists(configFile)) configFile = common.resolve(c);
+                    if (!Files.exists(configFile)) return null;
+                    configFile = configFile.toAbsolutePath().normalize();
+                    return new AbstractMap.SimpleEntry<>(c, configFile);
+                }).filter(Objects::nonNull)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public void copyConfig(String preset, Path destination) {
-        if (config == null) return;
+        if (config == null || config.isEmpty()) return;
+        Path mcConfigPath = destination.toAbsolutePath().normalize();
+        Map<String, Path> paths = getConfigResourcePaths(preset);
+        if (paths.isEmpty()) return;
+
         try {
-            destination = destination.toAbsolutePath().normalize();
-            Path configPath = getConfigPath(preset);
+            if (!Files.isDirectory(mcConfigPath)) Files.deleteIfExists(mcConfigPath);
+            Files.createDirectories(mcConfigPath);
 
-            if (!Files.isDirectory(destination)) Files.deleteIfExists(destination);
-            Files.createDirectories(destination);
-
-            destination = destination.resolve(config);
-
-            if (Files.isDirectory(configPath)) Files.walkFileTree(configPath, ResourceManager.getVisitor(configPath, destination));
-            else Files.copy(configPath, destination);
+            for (Map.Entry<String, Path> resource : paths.entrySet()) {
+                Path copyPath = mcConfigPath.resolve(resource.getKey());
+                if (Files.isDirectory(resource.getValue())) Files.walkFileTree(resource.getValue(), ResourceManager.getVisitor(resource.getValue(), copyPath));
+                else Files.copy(resource.getValue(), copyPath, StandardCopyOption.REPLACE_EXISTING);
+            }
         } catch (IOException e) {
             System.err.println("Could not copy config file " + config);
         }
