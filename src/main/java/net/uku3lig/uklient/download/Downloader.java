@@ -16,14 +16,14 @@ import static java.nio.file.StandardOpenOption.*;
 
 public class Downloader {
     @SneakyThrows
-    public static CompletableFuture<Void> download(URL url, Path path, Executor executor) {
-        Path dir = path.getParent();
+    public static CompletableFuture<Void> download(URL url, Path filePath, Executor executor) {
+        Path dir = filePath.getParent();
         if (!Files.isDirectory(dir)) {
             Files.createDirectories(dir);
         }
         return CompletableFuture.supplyAsync(() -> {
             try (ReadableByteChannel in = Channels.newChannel(url.openStream());
-                 FileChannel out = FileChannel.open(path, CREATE, TRUNCATE_EXISTING, WRITE)) {
+                 FileChannel out = FileChannel.open(filePath, CREATE, WRITE)) {
 
                 URLConnection conn = url.openConnection();
                 long fileSize = conn.getContentLengthLong();
