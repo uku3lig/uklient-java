@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class CurseforgeFile {
-    private String fileName;
-    private URL downloadUrl;
-    private Instant fileDate;
-    private List<String> gameVersion;
+    private final String fileName;
+    private final URL downloadUrl;
+    private final Instant fileDate;
+    private final List<String> gameVersion;
 }

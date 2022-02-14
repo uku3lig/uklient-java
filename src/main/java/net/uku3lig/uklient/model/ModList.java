@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor
 public class ModList {
-    private String name;
+    private final String name;
     @SerializedName("display_name")
-    private String displayName;
-    private List<String> mods;
+    private final String displayName;
+    private final List<String> mods;
 
     public List<ModInfo> getModInfos() {
         if (!ResourceManager.getMods().stream().allMatch(m -> mods.contains(m.getName()))) {

@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class ModInfo {
-    private String id;
-    private String name;
-    private Provider provider;
-    private List<FallbackFile> fallback;
-    private List<String> dependencies;
-    private List<String> config;
+    private final String id;
+    private final String name;
+    private final Provider provider;
+    private final List<FallbackFile> fallback;
+    private final List<String> dependencies;
+    private final List<String> config;
     @SerializedName("any-version")
-    private boolean anyVersion;
+    private final boolean anyVersion;
 
     @SneakyThrows(URISyntaxException.class)
     public Map<String, Path> getConfigResourcePaths(String preset) {

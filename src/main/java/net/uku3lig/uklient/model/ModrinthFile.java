@@ -12,19 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 public class ModrinthFile {
     @SerializedName("date_published")
-    Instant datePublished;
-
-    List<ModFile> files;
-
+    private final Instant datePublished;
+    private final List<ModFile> files;
     @SerializedName("game_versions")
-    List<String> gameVersions;
-
-    List<String> loaders;
+    private final List<String> gameVersions;
+    private final List<String> loaders;
 
     @AllArgsConstructor @Getter
     public static class ModFile {
-        URL url;
-        String filename;
-        boolean primary;
+        private final URL url;
+        private final String filename;
+        private final boolean primary;
     }
 }
