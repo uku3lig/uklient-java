@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 public class CurseforgeDownloader {
-    private static final String BASE_URL = "https://addons-ecs.forgesvc.net/api/v2/";
+    private static final String BASE_URL = "https://addons-ecs.forgesvc.net/api/v2/addon/";
     private static final CurseforgeRequester requester = RequestManager.supplyRetrofit(BASE_URL).create(CurseforgeRequester.class);
 
     public static CompletableFuture<URL> getMostRecentFile(ModInfo mod, String mcVer) {
@@ -43,7 +43,7 @@ public class CurseforgeDownloader {
     }
 
     private interface CurseforgeRequester {
-        @GET("addon/{id}/files")
+        @GET("{id}/files")
         CompletableFuture<List<CurseforgeFile>> getFiles(@Path("id") String modId);
     }
 }
