@@ -1,24 +1,30 @@
 package net.uku3lig.uklient.download;
 
+import lombok.Getter;
 import net.uku3lig.uklient.model.CurseforgeFile;
+import net.uku3lig.uklient.model.CurseforgeSearchResult;
 import net.uku3lig.uklient.model.ModInfo;
 import net.uku3lig.uklient.util.Util;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.net.URL;
-import java.nio.file.Files;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
-public class CurseforgeDownloader {
-    private static final String BASE_URL = "https://addons-ecs.forgesvc.net/api/v2/addon/";
-    private static final CurseforgeRequester requester = RequestManager.supplyRetrofit(BASE_URL).create(CurseforgeRequester.class);
+public class CurseforgeDownloader extends ModDownloader<CurseforgeDownloader.CurseforgeRequester> {
+    @Getter
+    private static final CurseforgeDownloader instance = new CurseforgeDownloader();
 
-    public static CompletableFuture<URL> getMostRecentFile(ModInfo mod, String mcVer) {
-        return requester.getFiles(mod.getId()).thenApply(l -> l.stream()
+    @Override
+    public String getBaseUrl() {
+        return "https://addons-ecs.forgesvc.net/api/v2/addon/";
+    }
+
+    public CompletableFuture<URL> getMostRecentFile(ModInfo mod, String mcVer) {
+        return getRequester(CurseforgeRequester.class).getFiles(mod.getId()).thenApply(l -> l.stream()
                         .filter(f -> Util.containsMcVer(mcVer, f.getGameVersion()) || mod.isAnyVersion())
                         .filter(f -> f.getGameVersion().contains("Fabric"))
                         .max(Comparator.comparing(CurseforgeFile::getFileDate))
@@ -27,23 +33,19 @@ public class CurseforgeDownloader {
                 .exceptionally(t -> Util.NOT_FOUND);
     }
 
-    public static CompletableFuture<java.nio.file.Path> download(ModInfo mod, String mcVer, java.nio.file.Path destFolder, Executor e) {
-        if (!Files.isDirectory(destFolder))
-            throw new IllegalArgumentException(destFolder + " is not a folder!!!");
-        return getMostRecentFile(mod, mcVer).thenCompose(u -> {
-            if (Util.NOT_FOUND.toString().equalsIgnoreCase(u.toString())) {
-                System.err.printf("\r%s does not have a file for %s%n", mod.getName(), mcVer);
-                return CompletableFuture.completedFuture(null);
-            }
-            else return Downloader.download(u, Util.path(u, destFolder), e);
-        });
+    public CompletableFuture<ModInfo> search(String query) {
+        return getRequester(CurseforgeRequester.class)
+                .search(query).thenApply(l -> l.isEmpty() ? null : new ModInfo(l.get(0)));
     }
 
     private CurseforgeDownloader() {
     }
 
-    private interface CurseforgeRequester {
+    public interface CurseforgeRequester {
         @GET("{id}/files")
         CompletableFuture<List<CurseforgeFile>> getFiles(@Path("id") String modId);
+
+        @GET("search?gameId=432&sectionId=6&pageSize=1")
+        CompletableFuture<List<CurseforgeSearchResult>> search(@Query("searchFilter") String query);
     }
 }

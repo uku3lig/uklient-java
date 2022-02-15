@@ -105,11 +105,8 @@ public class Main {
                 .thenCompose(v -> {
                     final ProgressBar pb = Util.getProgressBar("Downloading Mods", mods.size());
                     return CompletableFuture.allOf(mods.stream().distinct()
-                                    .map(m -> {
-                                        if (m.getProvider().equals(ModInfo.Provider.MODRINTH))
-                                            return ModrinthDownloader.download(m, mcVer, modPath, executor);
-                                        else return CurseforgeDownloader.download(m, mcVer, modPath, executor);
-                                    }).map(c -> c.thenRun(pb::step)).toArray(CompletableFuture[]::new))
+                                    .map(m -> Util.getDownloader(m).download(m, mcVer, modPath, executor))
+                                    .map(c -> c.thenRun(pb::step)).toArray(CompletableFuture[]::new))
                             .thenRun(pb::close).thenRun(System.out::println);
                 })
                 .thenRun(() -> mods.forEach(m -> m.copyConfig(preset.getName(), configPath)))

@@ -3,6 +3,10 @@ package net.uku3lig.uklient.util;
 import com.google.gson.reflect.TypeToken;
 import lombok.SneakyThrows;
 import me.tongfei.progressbar.*;
+import net.uku3lig.uklient.download.CurseforgeDownloader;
+import net.uku3lig.uklient.download.ModDownloader;
+import net.uku3lig.uklient.download.ModrinthDownloader;
+import net.uku3lig.uklient.model.ModInfo;
 
 import java.lang.reflect.Type;
 import java.net.*;
@@ -98,6 +102,10 @@ public class Util {
                 .setUpdateIntervalMillis(100)
                 .setConsumer(new ConsoleProgressBarConsumer(System.out))
                 .build();
+    }
+
+    public static ModDownloader<?> getDownloader(ModInfo m) {
+        return m.getProvider().equals(ModInfo.Provider.MODRINTH) ? ModrinthDownloader.getInstance() : CurseforgeDownloader.getInstance();
     }
 
     private Util() {}
