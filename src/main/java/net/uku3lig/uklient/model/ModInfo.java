@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class ModInfo {
-    private final String id;
-    private final String name;
-    private final Provider provider;
-    private final List<FallbackFile> fallback;
-    private final List<String> dependencies;
-    private final List<String> config;
+    private String id;
+    private String name;
+    private Provider provider;
+    private List<FallbackFile> fallback;
+    private List<String> dependencies;
+    private List<String> config;
     @SerializedName("any-version")
-    private final boolean anyVersion;
+    private boolean anyVersion;
 
     @SneakyThrows(URISyntaxException.class)
     public Map<String, Path> getConfigResourcePaths(String preset) {
@@ -65,6 +65,18 @@ public class ModInfo {
         } catch (IOException e) {
             System.err.println("Could not copy config file " + config);
         }
+    }
+
+    public ModInfo(ModrinthSearchResult.Mod mod) {
+        this.name = mod.getSlug();
+        this.id = mod.getModId().replace("local-", "");
+        this.provider = Provider.MODRINTH;
+    }
+
+    public ModInfo(CurseforgeSearchResult result) {
+        this.name = result.getSlug();
+        this.id = String.valueOf(result.getId());
+        this.provider = Provider.CURSEFORGE;
     }
 
     public enum Provider {
