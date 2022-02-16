@@ -41,7 +41,7 @@ If you want me to add a mod, just open a pull request with the needed info (mod 
 ## Building from source
 
 ### Running
-Clone the project, then run it with `./gradlew run` on GNU/Linux or `gradlew run` on Windows.
+Clone the project, then run it with `./uklient.sh` on GNU/Linux or `uklient.bat` on Windows.
 
 ### Compiling
 Run `gradlew shadowJar` to build a jar file, you can find it in the `<project root>/build/libs` directory.

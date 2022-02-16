@@ -33,4 +33,8 @@ test {
     useJUnitPlatform()
 }
 
+run {
+    standardInput = System.in
+}
+
 mainClassName = "net.uku3lig.uklient.Main"
