@@ -9,6 +9,9 @@ plugins {
 group 'net.uku3lig'
 version '0.0-dev'
 
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
+
 repositories {
     mavenCentral()
 }
