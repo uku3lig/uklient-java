@@ -17,11 +17,10 @@ import java.util.stream.Collectors;
 
 public class ResourceManager {
     private static final List<ModInfo> mods = new ArrayList<>();
-    private static final List<ModList> categories = new ArrayList<>();
     private static final List<ModList> presets = new ArrayList<>();
 
-    private static final Path RESOURCES_DIR = getResourcesDir();
     private static final URL RESOURCES_URL = Util.url("https://github.com/uku3lig/uklient-resources/archive/master.zip");
+    private static final Path RESOURCES_DIR = getResourcesDir();
 
     // MOD RELATED METHODS
 
@@ -74,24 +73,10 @@ public class ResourceManager {
         return c;
     }
 
-    // CATEGORY RELATED METHODS
-
-    public static List<ModList> getCategories() {
-        if (categories.isEmpty()) categories.addAll(loadNamedModList("categories"));
-        return Collections.unmodifiableList(categories);
-    }
-
-    public static ModList getCategoryByName(String name) {
-        return getCategories().stream()
-                .filter(c -> c.getName().equalsIgnoreCase(name))
-                .findFirst()
-                .orElseThrow(NoSuchElementException::new);
-    }
-
     // PRESET METHODS
 
     public static List<ModList> getPresets() {
-        if (presets.isEmpty()) presets.addAll(loadNamedModList("presets"));
+        if (presets.isEmpty()) presets.addAll(loadPresets());
         return Collections.unmodifiableList(presets);
     }
 
@@ -114,7 +99,7 @@ public class ResourceManager {
             System.exit(1);
         }
 
-        return out;
+        return Util.getTmpDir().resolve("uklient-resources-master");
     }
 
     private static Collection<ModInfo> loadMods() {
@@ -128,12 +113,12 @@ public class ResourceManager {
         return Collections.emptyList();
     }
 
-    private static Collection<ModList> loadNamedModList(String filename) {
-        try (Reader reader = new FileReader(RESOURCES_DIR.resolve(filename + ".json").toFile())) {
+    private static Collection<ModList> loadPresets() {
+        try (Reader reader = new FileReader(RESOURCES_DIR.resolve("presets.json").toFile())) {
             Type listType = Util.getParametrized(List.class, ModList.class);
             return RequestManager.getGson().fromJson(reader, listType);
         } catch (IOException e) {
-            System.err.println("Could not load categories. please retry later");
+            System.err.println("Could not load presets. please retry later");
             System.exit(1);
         }
         return Collections.emptyList();
