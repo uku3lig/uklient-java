@@ -12,10 +12,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FabricMetadata {
     @XmlElement(name = "versioning")
-    private final Versioning versioning;
+    private Versioning versioning;
 
     @Data
     public static class Versioning {
-        private final String release;
+        private String release;
     }
 }
