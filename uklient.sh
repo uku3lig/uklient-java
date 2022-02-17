@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$#" -ne 1 ]; then
-  ./gradlew --console plain run
+  ./gradlew -q --console plain run
 else
-  ./gradlew --console plain run --args="$*"
+  ./gradlew -q --console plain run --args="$*"
 fi
