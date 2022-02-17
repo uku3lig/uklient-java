@@ -24,7 +24,7 @@ public class ModInfo {
     private List<FallbackFile> fallback;
     private List<String> dependencies;
     private List<String> config;
-    @SerializedName("any-version")
+    @SerializedName("any_version")
     private boolean anyVersion;
 
     @SneakyThrows(URISyntaxException.class)
@@ -87,7 +87,9 @@ public class ModInfo {
     @Getter
     @AllArgsConstructor
     public static class FallbackFile {
+        @SerializedName("minecraft_version")
         private String minecraftVersion;
+        @SerializedName("version_id")
         private String versionId;
     }
 }
