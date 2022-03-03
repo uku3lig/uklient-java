@@ -10,15 +10,6 @@ It installs everything for you, from downloading the most recent version of each
 while copying all of the needed config files.
 
 ## Features
-
-What uklient is **NOT**:
- - Foli Client but femboy themed
- - hacked client
- - fr\*nch virus that will install l\*nux on your computer
- - vbuck generator
- - virus that mines crypto on your behalf
-
-What uklient does offer:
  - supports multiple minecraft versions
  - installs the latest version of each mod
  - updates the mods
@@ -28,6 +19,13 @@ What uklient does offer:
  - installs the latest version of fabric
  - keeps your keybinds and resource packs
  - i probably forgot features here but you get my point it's super cool
+
+What uklient is **NOT**:
+ - Foli Client but femboy themed
+ - hacked client
+ - fr\*nch virus that will install l\*nux on your computer
+ - vbuck generator
+ - virus that mines crypto on your behalf
 
 ## Supported mods
 Due to how it is made, uklient can support any mod that is either on Modrinth or Curseforge!
