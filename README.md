@@ -5,6 +5,15 @@
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/uku3lig/uklient.svg)](https://lgtm.com/projects/g/uku3lig/uklient/context:java)
 [![Resources](https://img.shields.io/badge/resources-uklient--resources-informational)](https://github.com/uku3lig/uklient-resources)
 
+## End of life
+
+I have decided to no longer develop the Java version of uklient, due to too many issues and a big lack of motivation.
+I will maybe restart the project in another, better language, hoping that I'll be able to get it done this time.
+
+Thank you for your support.
+
+<hr />
+
 **uklient** is a flexible, lightweight and easy to use Minecraft client installer.
 It installs everything for you, from downloading the most recent version of each mod, to installing fabric by itself, 
 while copying all of the needed config files.
